@@ -201,7 +201,7 @@
   /* ── ROW ── */
   .check-row {
     display: grid;
-    grid-template-columns: 70px 1fr 1fr 1fr 140px 1fr;
+    grid-template-columns: 70px 1fr 1fr 1fr 140px 1fr 160px;
     border-bottom: 1px solid var(--slate-100);
     transition: background .1s;
   }
@@ -276,11 +276,48 @@
     resize: vertical; background: transparent;
   }
   .findings-ta:focus { outline: none; border-color: var(--green-600); background: white; }
+  /* ── ATTACHMENT CELL ── */
+  .attach-cell { padding: 8px 10px; border-right: 1px solid var(--slate-100); }
+  .attach-cell:last-child { border-right: none; }
+  .attach-btn {
+    display: flex; align-items: center; justify-content: center; gap: 5px;
+    width: 100%; padding: 5px 0; border-radius: 5px; cursor: pointer;
+    border: 1.5px dashed var(--slate-300); background: var(--slate-50);
+    font-family: var(--font-th); font-size: 12px; color: var(--slate-500);
+    transition: all .15s;
+  }
+  .attach-btn:hover { border-color: var(--green-600); color: var(--green-700); background: var(--green-50); }
+  .attach-input { display: none; }
+  .attach-preview { margin-top: 5px; }
+  .attach-thumb {
+    width: 100%; max-height: 80px; object-fit: cover;
+    border-radius: 4px; border: 1px solid var(--slate-200);
+    display: block; margin-bottom: 3px;
+  }
+  .attach-tag {
+    display: flex; align-items: center; gap: 4px;
+    background: var(--slate-100); border-radius: 4px;
+    padding: 2px 7px; font-size: 11px; color: var(--slate-600);
+    margin-bottom: 3px; word-break: break-all;
+  }
+  .attach-tag.pdf-tag { background: #FEE2E2; color: var(--red-800); }
+  .attach-tag.img-tag { background: #DCFCE7; color: #166534; }
+  .attach-remove {
+    margin-left: auto; cursor: pointer; color: var(--slate-400);
+    font-size: 13px; flex-shrink: 0; border: none; background: none;
+    padding: 0 2px; line-height: 1;
+  }
+  .attach-remove:hover { color: var(--red-800); }
+  @media print {
+    .attach-btn { display: none; }
+    .attach-thumb { max-height: 60px; }
+  }
+
 
   /* ── COLUMN HEADERS ── */
   .col-header {
     display: grid;
-    grid-template-columns: 70px 1fr 1fr 1fr 140px 1fr;
+    grid-template-columns: 70px 1fr 1fr 1fr 140px 1fr 160px;
     background: var(--slate-100);
     border-bottom: 2px solid var(--slate-200);
   }
@@ -501,6 +538,7 @@
         <div class="col-hdr">⚠️ Red Flag</div>
         <div class="col-hdr text-center">ผ่าน / ไม่ผ่าน</div>
         <div class="col-hdr">หมายเหตุ / Findings</div>
+        <div class="col-hdr text-center">📎 แนบหลักฐาน</div>
       </div>
       <!-- 1.1.1 -->
       <div class="check-row" id="row-111">
@@ -513,6 +551,15 @@
           <button class="result-btn" onclick="setResult(this,'111','fail')">✗ ไม่ผ่าน</button>
         </div>
         <div class="row-cell"><textarea class="findings-ta" placeholder="บันทึก Findings..."></textarea></div>
+
+        <div class="attach-cell">
+          <label class="attach-btn" for="attach-111">
+            <span style="font-size:15px">📎</span> แนบ
+          </label>
+          <input class="attach-input" type="file" id="attach-111" 
+                 accept="image/*,.pdf" multiple onchange="handleAttach(this,'111')">
+          <div class="attach-preview" id="preview-111"></div>
+        </div>
       </div>
       <!-- 1.2.1 -->
       <div class="check-row" id="row-121">
@@ -525,6 +572,15 @@
           <button class="result-btn" onclick="setResult(this,'121','fail')">✗ ไม่ผ่าน</button>
         </div>
         <div class="row-cell"><textarea class="findings-ta" placeholder="บันทึก Findings..."></textarea></div>
+
+        <div class="attach-cell">
+          <label class="attach-btn" for="attach-121">
+            <span style="font-size:15px">📎</span> แนบ
+          </label>
+          <input class="attach-input" type="file" id="attach-121" 
+                 accept="image/*,.pdf" multiple onchange="handleAttach(this,'121')">
+          <div class="attach-preview" id="preview-121"></div>
+        </div>
       </div>
     </div>
   </div>
@@ -541,7 +597,8 @@
       <div class="col-header">
         <div class="col-hdr">ข้อ</div><div class="col-hdr">ตัวชี้วัด</div>
         <div class="col-hdr">หลักฐาน</div><div class="col-hdr">⚠️ Red Flag</div>
-        <div class="col-hdr text-center">ผล</div><div class="col-hdr">Findings</div>
+        <div class="col-hdr text-center">ผล</div><div class="col-hdr">หมายเหตุ / Findings</div>
+        <div class="col-hdr text-center">📎 แนบหลักฐาน</div>
       </div>
       <!-- rows -->
       <div class="check-row" id="row-211">
@@ -554,6 +611,15 @@
           <button class="result-btn" onclick="setResult(this,'211','fail')">✗ ไม่ผ่าน</button>
         </div>
         <div class="row-cell"><textarea class="findings-ta" placeholder="Findings..."></textarea></div>
+
+        <div class="attach-cell">
+          <label class="attach-btn" for="attach-111">
+            <span style="font-size:15px">📎</span> แนบ
+          </label>
+          <input class="attach-input" type="file" id="attach-111" 
+                 accept="image/*,.pdf" multiple onchange="handleAttach(this,'111')">
+          <div class="attach-preview" id="preview-111"></div>
+        </div>
       </div>
       <div class="check-row" id="row-221">
         <div class="row-cell cell-id">2.2.1</div>
@@ -565,6 +631,15 @@
           <button class="result-btn" onclick="setResult(this,'221','fail')">✗ ไม่ผ่าน</button>
         </div>
         <div class="row-cell"><textarea class="findings-ta" placeholder="Findings..."></textarea></div>
+
+        <div class="attach-cell">
+          <label class="attach-btn" for="attach-121">
+            <span style="font-size:15px">📎</span> แนบ
+          </label>
+          <input class="attach-input" type="file" id="attach-121" 
+                 accept="image/*,.pdf" multiple onchange="handleAttach(this,'121')">
+          <div class="attach-preview" id="preview-121"></div>
+        </div>
       </div>
       <div class="check-row" id="row-222">
         <div class="row-cell cell-id">2.2.2</div>
@@ -576,6 +651,15 @@
           <button class="result-btn" onclick="setResult(this,'222','fail')">✗ ไม่ผ่าน</button>
         </div>
         <div class="row-cell"><textarea class="findings-ta" placeholder="Findings..."></textarea></div>
+
+        <div class="attach-cell">
+          <label class="attach-btn" for="attach-211">
+            <span style="font-size:15px">📎</span> แนบ
+          </label>
+          <input class="attach-input" type="file" id="attach-211" 
+                 accept="image/*,.pdf" multiple onchange="handleAttach(this,'211')">
+          <div class="attach-preview" id="preview-211"></div>
+        </div>
       </div>
       <div class="check-row" id="row-231">
         <div class="row-cell cell-id">2.3.1</div>
@@ -587,6 +671,15 @@
           <button class="result-btn" onclick="setResult(this,'231','fail')">✗ ไม่ผ่าน</button>
         </div>
         <div class="row-cell"><textarea class="findings-ta" placeholder="Findings..."></textarea></div>
+
+        <div class="attach-cell">
+          <label class="attach-btn" for="attach-221">
+            <span style="font-size:15px">📎</span> แนบ
+          </label>
+          <input class="attach-input" type="file" id="attach-221" 
+                 accept="image/*,.pdf" multiple onchange="handleAttach(this,'221')">
+          <div class="attach-preview" id="preview-221"></div>
+        </div>
       </div>
     </div>
   </div>
@@ -603,7 +696,8 @@
       <div class="col-header">
         <div class="col-hdr">ข้อ</div><div class="col-hdr">ตัวชี้วัด</div>
         <div class="col-hdr">หลักฐาน</div><div class="col-hdr">⚠️ Red Flag</div>
-        <div class="col-hdr text-center">ผล</div><div class="col-hdr">Findings</div>
+        <div class="col-hdr text-center">ผล</div><div class="col-hdr">หมายเหตุ / Findings</div>
+        <div class="col-hdr text-center">📎 แนบหลักฐาน</div>
       </div>
       <div class="check-row" id="row-311">
         <div class="row-cell cell-id">3.1.1</div>
@@ -615,6 +709,15 @@
           <button class="result-btn" onclick="setResult(this,'311','fail')">✗ ไม่ผ่าน</button>
         </div>
         <div class="row-cell"><textarea class="findings-ta" placeholder="Findings..."></textarea></div>
+
+        <div class="attach-cell">
+          <label class="attach-btn" for="attach-222">
+            <span style="font-size:15px">📎</span> แนบ
+          </label>
+          <input class="attach-input" type="file" id="attach-222" 
+                 accept="image/*,.pdf" multiple onchange="handleAttach(this,'222')">
+          <div class="attach-preview" id="preview-222"></div>
+        </div>
       </div>
       <div class="check-row" id="row-312">
         <div class="row-cell cell-id">3.1.2</div>
@@ -626,6 +729,15 @@
           <button class="result-btn" onclick="setResult(this,'312','fail')">✗ ไม่ผ่าน</button>
         </div>
         <div class="row-cell"><textarea class="findings-ta" placeholder="Findings..."></textarea></div>
+
+        <div class="attach-cell">
+          <label class="attach-btn" for="attach-231">
+            <span style="font-size:15px">📎</span> แนบ
+          </label>
+          <input class="attach-input" type="file" id="attach-231" 
+                 accept="image/*,.pdf" multiple onchange="handleAttach(this,'231')">
+          <div class="attach-preview" id="preview-231"></div>
+        </div>
       </div>
       <!-- MANDATORY 3.2.1 -->
       <div class="check-row mandatory" id="row-321">
@@ -638,6 +750,15 @@
           <button class="result-btn" onclick="setMandatory(this,'321','fail')">✗ ไม่ผ่าน</button>
         </div>
         <div class="row-cell"><textarea class="findings-ta" placeholder="Findings..."></textarea></div>
+
+        <div class="attach-cell">
+          <label class="attach-btn" for="attach-311">
+            <span style="font-size:15px">📎</span> แนบ
+          </label>
+          <input class="attach-input" type="file" id="attach-311" 
+                 accept="image/*,.pdf" multiple onchange="handleAttach(this,'311')">
+          <div class="attach-preview" id="preview-311"></div>
+        </div>
       </div>
       <div class="check-row" id="row-322">
         <div class="row-cell cell-id">3.2.2</div>
@@ -649,6 +770,15 @@
           <button class="result-btn" onclick="setResult(this,'322','fail')">✗ ไม่ผ่าน</button>
         </div>
         <div class="row-cell"><textarea class="findings-ta" placeholder="Findings..."></textarea></div>
+
+        <div class="attach-cell">
+          <label class="attach-btn" for="attach-312">
+            <span style="font-size:15px">📎</span> แนบ
+          </label>
+          <input class="attach-input" type="file" id="attach-312" 
+                 accept="image/*,.pdf" multiple onchange="handleAttach(this,'312')">
+          <div class="attach-preview" id="preview-312"></div>
+        </div>
       </div>
       <div class="check-row" id="row-331">
         <div class="row-cell cell-id">3.3.1</div>
@@ -660,6 +790,15 @@
           <button class="result-btn" onclick="setResult(this,'331','fail')">✗ ไม่ผ่าน</button>
         </div>
         <div class="row-cell"><textarea class="findings-ta" placeholder="Findings..."></textarea></div>
+
+        <div class="attach-cell">
+          <label class="attach-btn" for="attach-321">
+            <span style="font-size:15px">📎</span> แนบ
+          </label>
+          <input class="attach-input" type="file" id="attach-321" 
+                 accept="image/*,.pdf" multiple onchange="handleAttach(this,'321')">
+          <div class="attach-preview" id="preview-321"></div>
+        </div>
       </div>
       <div class="check-row" id="row-332">
         <div class="row-cell cell-id">3.3.2</div>
@@ -671,6 +810,15 @@
           <button class="result-btn" onclick="setResult(this,'332','fail')">✗ ไม่ผ่าน</button>
         </div>
         <div class="row-cell"><textarea class="findings-ta" placeholder="Findings..."></textarea></div>
+
+        <div class="attach-cell">
+          <label class="attach-btn" for="attach-322">
+            <span style="font-size:15px">📎</span> แนบ
+          </label>
+          <input class="attach-input" type="file" id="attach-322" 
+                 accept="image/*,.pdf" multiple onchange="handleAttach(this,'322')">
+          <div class="attach-preview" id="preview-322"></div>
+        </div>
       </div>
       <div class="check-row" id="row-333">
         <div class="row-cell cell-id">3.3.3</div>
@@ -682,6 +830,15 @@
           <button class="result-btn" onclick="setResult(this,'333','fail')">✗ ไม่ผ่าน</button>
         </div>
         <div class="row-cell"><textarea class="findings-ta" placeholder="Findings..."></textarea></div>
+
+        <div class="attach-cell">
+          <label class="attach-btn" for="attach-331">
+            <span style="font-size:15px">📎</span> แนบ
+          </label>
+          <input class="attach-input" type="file" id="attach-331" 
+                 accept="image/*,.pdf" multiple onchange="handleAttach(this,'331')">
+          <div class="attach-preview" id="preview-331"></div>
+        </div>
       </div>
       <div class="check-row" id="row-341">
         <div class="row-cell cell-id">3.4.1</div>
@@ -693,6 +850,15 @@
           <button class="result-btn" onclick="setResult(this,'341','fail')">✗ ไม่ผ่าน</button>
         </div>
         <div class="row-cell"><textarea class="findings-ta" placeholder="Findings..."></textarea></div>
+
+        <div class="attach-cell">
+          <label class="attach-btn" for="attach-332">
+            <span style="font-size:15px">📎</span> แนบ
+          </label>
+          <input class="attach-input" type="file" id="attach-332" 
+                 accept="image/*,.pdf" multiple onchange="handleAttach(this,'332')">
+          <div class="attach-preview" id="preview-332"></div>
+        </div>
       </div>
       <div class="check-row" id="row-342">
         <div class="row-cell cell-id">3.4.2</div>
@@ -704,6 +870,15 @@
           <button class="result-btn" onclick="setResult(this,'342','fail')">✗ ไม่ผ่าน</button>
         </div>
         <div class="row-cell"><textarea class="findings-ta" placeholder="Findings..."></textarea></div>
+
+        <div class="attach-cell">
+          <label class="attach-btn" for="attach-333">
+            <span style="font-size:15px">📎</span> แนบ
+          </label>
+          <input class="attach-input" type="file" id="attach-333" 
+                 accept="image/*,.pdf" multiple onchange="handleAttach(this,'333')">
+          <div class="attach-preview" id="preview-333"></div>
+        </div>
       </div>
     </div>
   </div>
@@ -720,7 +895,8 @@
       <div class="col-header">
         <div class="col-hdr">ข้อ</div><div class="col-hdr">ตัวชี้วัด</div>
         <div class="col-hdr">หลักฐาน</div><div class="col-hdr">⚠️ Red Flag</div>
-        <div class="col-hdr text-center">ผล</div><div class="col-hdr">Findings</div>
+        <div class="col-hdr text-center">ผล</div><div class="col-hdr">หมายเหตุ / Findings</div>
+        <div class="col-hdr text-center">📎 แนบหลักฐาน</div>
       </div>
       <div class="check-row" id="row-411">
         <div class="row-cell cell-id">4.1.1</div>
@@ -732,6 +908,15 @@
           <button class="result-btn" onclick="setResult(this,'411','fail')">✗ ไม่ผ่าน</button>
         </div>
         <div class="row-cell"><textarea class="findings-ta" placeholder="Findings..."></textarea></div>
+
+        <div class="attach-cell">
+          <label class="attach-btn" for="attach-341">
+            <span style="font-size:15px">📎</span> แนบ
+          </label>
+          <input class="attach-input" type="file" id="attach-341" 
+                 accept="image/*,.pdf" multiple onchange="handleAttach(this,'341')">
+          <div class="attach-preview" id="preview-341"></div>
+        </div>
       </div>
       <div class="check-row" id="row-421">
         <div class="row-cell cell-id">4.2.1</div>
@@ -743,6 +928,15 @@
           <button class="result-btn" onclick="setResult(this,'421','fail')">✗ ไม่ผ่าน</button>
         </div>
         <div class="row-cell"><textarea class="findings-ta" placeholder="Findings..."></textarea></div>
+
+        <div class="attach-cell">
+          <label class="attach-btn" for="attach-342">
+            <span style="font-size:15px">📎</span> แนบ
+          </label>
+          <input class="attach-input" type="file" id="attach-342" 
+                 accept="image/*,.pdf" multiple onchange="handleAttach(this,'342')">
+          <div class="attach-preview" id="preview-342"></div>
+        </div>
       </div>
       <div class="check-row" id="row-431">
         <div class="row-cell cell-id">4.3.1</div>
@@ -754,6 +948,15 @@
           <button class="result-btn" onclick="setResult(this,'431','fail')">✗ ไม่ผ่าน</button>
         </div>
         <div class="row-cell"><textarea class="findings-ta" placeholder="Findings..."></textarea></div>
+
+        <div class="attach-cell">
+          <label class="attach-btn" for="attach-411">
+            <span style="font-size:15px">📎</span> แนบ
+          </label>
+          <input class="attach-input" type="file" id="attach-411" 
+                 accept="image/*,.pdf" multiple onchange="handleAttach(this,'411')">
+          <div class="attach-preview" id="preview-411"></div>
+        </div>
       </div>
     </div>
   </div>
@@ -763,14 +966,15 @@
     <div class="section-header s5" onclick="toggleSection('s5')">
       <span class="section-title">หมวด 5 — การจัดการของเสียและสิ่งแวดล้อม <span class="tag tag-mandatory">★ บังคับผ่าน 5.2.2</span></span>
       <span class="section-badge">15 คะแนน</span>
-      <span class="section-progress" id="prog-s5">0/5</span>
+      <span class="section-progress" id="prog-s5">0/7</span>
       <span class="section-chevron">▾</span>
     </div>
     <div class="section-body" id="body-s5">
       <div class="col-header">
         <div class="col-hdr">ข้อ</div><div class="col-hdr">ตัวชี้วัด</div>
         <div class="col-hdr">หลักฐาน</div><div class="col-hdr">⚠️ Red Flag</div>
-        <div class="col-hdr text-center">ผล</div><div class="col-hdr">Findings</div>
+        <div class="col-hdr text-center">ผล</div><div class="col-hdr">หมายเหตุ / Findings</div>
+        <div class="col-hdr text-center">📎 แนบหลักฐาน</div>
       </div>
       <div class="check-row" id="row-511">
         <div class="row-cell cell-id">5.1.1</div>
@@ -782,6 +986,15 @@
           <button class="result-btn" onclick="setResult(this,'511','fail')">✗ ไม่ผ่าน</button>
         </div>
         <div class="row-cell"><textarea class="findings-ta" placeholder="Findings..."></textarea></div>
+
+        <div class="attach-cell">
+          <label class="attach-btn" for="attach-421">
+            <span style="font-size:15px">📎</span> แนบ
+          </label>
+          <input class="attach-input" type="file" id="attach-421" 
+                 accept="image/*,.pdf" multiple onchange="handleAttach(this,'421')">
+          <div class="attach-preview" id="preview-421"></div>
+        </div>
       </div>
       <div class="check-row" id="row-512">
         <div class="row-cell cell-id">5.1.2</div>
@@ -793,6 +1006,15 @@
           <button class="result-btn" onclick="setResult(this,'512','fail')">✗ ไม่ผ่าน</button>
         </div>
         <div class="row-cell"><textarea class="findings-ta" placeholder="Findings..."></textarea></div>
+
+        <div class="attach-cell">
+          <label class="attach-btn" for="attach-431">
+            <span style="font-size:15px">📎</span> แนบ
+          </label>
+          <input class="attach-input" type="file" id="attach-431" 
+                 accept="image/*,.pdf" multiple onchange="handleAttach(this,'431')">
+          <div class="attach-preview" id="preview-431"></div>
+        </div>
       </div>
       <div class="check-row" id="row-513">
         <div class="row-cell cell-id">5.1.3</div>
@@ -804,6 +1026,15 @@
           <button class="result-btn" onclick="setResult(this,'513','fail')">✗ ไม่ผ่าน</button>
         </div>
         <div class="row-cell"><textarea class="findings-ta" placeholder="Findings..."></textarea></div>
+
+        <div class="attach-cell">
+          <label class="attach-btn" for="attach-511">
+            <span style="font-size:15px">📎</span> แนบ
+          </label>
+          <input class="attach-input" type="file" id="attach-511" 
+                 accept="image/*,.pdf" multiple onchange="handleAttach(this,'511')">
+          <div class="attach-preview" id="preview-511"></div>
+        </div>
       </div>
       <div class="check-row" id="row-521">
         <div class="row-cell cell-id">5.2.1</div>
@@ -815,6 +1046,15 @@
           <button class="result-btn" onclick="setResult(this,'521','fail')">✗ ไม่ผ่าน</button>
         </div>
         <div class="row-cell"><textarea class="findings-ta" placeholder="Findings..."></textarea></div>
+
+        <div class="attach-cell">
+          <label class="attach-btn" for="attach-512">
+            <span style="font-size:15px">📎</span> แนบ
+          </label>
+          <input class="attach-input" type="file" id="attach-512" 
+                 accept="image/*,.pdf" multiple onchange="handleAttach(this,'512')">
+          <div class="attach-preview" id="preview-512"></div>
+        </div>
       </div>
       <!-- MANDATORY 5.2.2 -->
       <div class="check-row mandatory" id="row-522">
@@ -828,6 +1068,57 @@
           <button class="result-btn" id="btn-522-na" onclick="setMandatory(this,'522','na')" style="font-size:12px">N.A.</button>
         </div>
         <div class="row-cell"><textarea class="findings-ta" placeholder="Findings..."></textarea></div>
+
+        <div class="attach-cell">
+          <label class="attach-btn" for="attach-513">
+            <span style="font-size:15px">📎</span> แนบ
+          </label>
+          <input class="attach-input" type="file" id="attach-513" 
+                 accept="image/*,.pdf" multiple onchange="handleAttach(this,'513')">
+          <div class="attach-preview" id="preview-513"></div>
+        </div>
+      </div>
+      <!-- 5.3.1 -->
+      <div class="check-row" id="row-531">
+        <div class="row-cell cell-id">5.3.1</div>
+        <div class="row-cell">มีการจัดการมลพิษทางอากาศด้านฝุ่นละออง (ระบบดูดฝุ่น กรองอากาศ หรือมาตรการควบคุม)</div>
+        <div class="row-cell cell-evidence">ระบบดูดฝุ่น/กรองอากาศ · บันทึกการบำรุงรักษา · ผลตรวจวัด (ถ้ามี)</div>
+        <div class="row-cell cell-redflag">ฝุ่นฟุ้งกระจายในพื้นที่ผลิต · ไม่มีระบบควบคุม · พนักงานไม่ใส่ PPE</div>
+        <div class="row-cell cell-result">
+          <button class="result-btn" onclick="setResult(this,'531','pass')">✓ ผ่าน</button>
+          <button class="result-btn" onclick="setResult(this,'531','fail')">✗ ไม่ผ่าน</button>
+        </div>
+        <div class="row-cell"><textarea class="findings-ta" placeholder="Findings..."></textarea></div>
+
+        <div class="attach-cell">
+          <label class="attach-btn" for="attach-521">
+            <span style="font-size:15px">📎</span> แนบ
+          </label>
+          <input class="attach-input" type="file" id="attach-521" 
+                 accept="image/*,.pdf" multiple onchange="handleAttach(this,'521')">
+          <div class="attach-preview" id="preview-521"></div>
+        </div>
+      </div>
+      <!-- 5.3.2 -->
+      <div class="check-row" id="row-532">
+        <div class="row-cell cell-id">5.3.2</div>
+        <div class="row-cell">มีการจัดการมลพิษทางอากาศด้านกลิ่นและไอระเหย (VOC / Solvent)</div>
+        <div class="row-cell cell-evidence">ระบบระบายอากาศ · ฝาปิดภาชนะสารระเหย · ผลตรวจวัด VOC (ถ้ามี)</div>
+        <div class="row-cell cell-redflag">กลิ่นรุนแรงในพื้นที่ผลิต · ภาชนะสารระเหยเปิดทิ้งไว้ · ไม่มีการระบายอากาศ</div>
+        <div class="row-cell cell-result">
+          <button class="result-btn" onclick="setResult(this,'532','pass')">✓ ผ่าน</button>
+          <button class="result-btn" onclick="setResult(this,'532','fail')">✗ ไม่ผ่าน</button>
+        </div>
+        <div class="row-cell"><textarea class="findings-ta" placeholder="Findings..."></textarea></div>
+
+        <div class="attach-cell">
+          <label class="attach-btn" for="attach-522">
+            <span style="font-size:15px">📎</span> แนบ
+          </label>
+          <input class="attach-input" type="file" id="attach-522" 
+                 accept="image/*,.pdf" multiple onchange="handleAttach(this,'522')">
+          <div class="attach-preview" id="preview-522"></div>
+        </div>
       </div>
     </div>
   </div>
@@ -837,14 +1128,15 @@
     <div class="section-header s6" onclick="toggleSection('s6')">
       <span class="section-title">หมวด 6 — การอนุรักษ์ทรัพยากรและพลังงาน</span>
       <span class="section-badge">15 คะแนน</span>
-      <span class="section-progress" id="prog-s6">0/6</span>
+      <span class="section-progress" id="prog-s6">0/7</span>
       <span class="section-chevron">▾</span>
     </div>
     <div class="section-body" id="body-s6">
       <div class="col-header">
         <div class="col-hdr">ข้อ</div><div class="col-hdr">ตัวชี้วัด</div>
         <div class="col-hdr">หลักฐาน</div><div class="col-hdr">⚠️ Red Flag</div>
-        <div class="col-hdr text-center">ผล</div><div class="col-hdr">Findings</div>
+        <div class="col-hdr text-center">ผล</div><div class="col-hdr">หมายเหตุ / Findings</div>
+        <div class="col-hdr text-center">📎 แนบหลักฐาน</div>
       </div>
       <div class="check-row" id="row-611">
         <div class="row-cell cell-id">6.1.1</div>
@@ -856,6 +1148,15 @@
           <button class="result-btn" onclick="setResult(this,'611','fail')">✗ ไม่ผ่าน</button>
         </div>
         <div class="row-cell"><textarea class="findings-ta" placeholder="Findings..."></textarea></div>
+
+        <div class="attach-cell">
+          <label class="attach-btn" for="attach-531">
+            <span style="font-size:15px">📎</span> แนบ
+          </label>
+          <input class="attach-input" type="file" id="attach-531" 
+                 accept="image/*,.pdf" multiple onchange="handleAttach(this,'531')">
+          <div class="attach-preview" id="preview-531"></div>
+        </div>
       </div>
       <div class="check-row" id="row-612">
         <div class="row-cell cell-id">6.1.2</div>
@@ -867,6 +1168,15 @@
           <button class="result-btn" onclick="setResult(this,'612','fail')">✗ ไม่ผ่าน</button>
         </div>
         <div class="row-cell"><textarea class="findings-ta" placeholder="Findings..."></textarea></div>
+
+        <div class="attach-cell">
+          <label class="attach-btn" for="attach-532">
+            <span style="font-size:15px">📎</span> แนบ
+          </label>
+          <input class="attach-input" type="file" id="attach-532" 
+                 accept="image/*,.pdf" multiple onchange="handleAttach(this,'532')">
+          <div class="attach-preview" id="preview-532"></div>
+        </div>
       </div>
       <div class="check-row" id="row-613">
         <div class="row-cell cell-id">6.1.3</div>
@@ -878,6 +1188,15 @@
           <button class="result-btn" onclick="setResult(this,'613','fail')">✗ ไม่ผ่าน</button>
         </div>
         <div class="row-cell"><textarea class="findings-ta" placeholder="Findings..."></textarea></div>
+
+        <div class="attach-cell">
+          <label class="attach-btn" for="attach-611">
+            <span style="font-size:15px">📎</span> แนบ
+          </label>
+          <input class="attach-input" type="file" id="attach-611" 
+                 accept="image/*,.pdf" multiple onchange="handleAttach(this,'611')">
+          <div class="attach-preview" id="preview-611"></div>
+        </div>
       </div>
       <div class="check-row" id="row-621">
         <div class="row-cell cell-id">6.2.1</div>
@@ -889,6 +1208,15 @@
           <button class="result-btn" onclick="setResult(this,'621','fail')">✗ ไม่ผ่าน</button>
         </div>
         <div class="row-cell"><textarea class="findings-ta" placeholder="Findings..."></textarea></div>
+
+        <div class="attach-cell">
+          <label class="attach-btn" for="attach-612">
+            <span style="font-size:15px">📎</span> แนบ
+          </label>
+          <input class="attach-input" type="file" id="attach-612" 
+                 accept="image/*,.pdf" multiple onchange="handleAttach(this,'612')">
+          <div class="attach-preview" id="preview-612"></div>
+        </div>
       </div>
       <div class="check-row" id="row-622">
         <div class="row-cell cell-id">6.2.2</div>
@@ -900,6 +1228,15 @@
           <button class="result-btn" onclick="setResult(this,'622','fail')">✗ ไม่ผ่าน</button>
         </div>
         <div class="row-cell"><textarea class="findings-ta" placeholder="Findings..."></textarea></div>
+
+        <div class="attach-cell">
+          <label class="attach-btn" for="attach-613">
+            <span style="font-size:15px">📎</span> แนบ
+          </label>
+          <input class="attach-input" type="file" id="attach-613" 
+                 accept="image/*,.pdf" multiple onchange="handleAttach(this,'613')">
+          <div class="attach-preview" id="preview-613"></div>
+        </div>
       </div>
       <div class="check-row" id="row-631">
         <div class="row-cell cell-id">6.3.1</div>
@@ -911,6 +1248,36 @@
           <button class="result-btn" onclick="setResult(this,'631','fail')">✗ ไม่ผ่าน</button>
         </div>
         <div class="row-cell"><textarea class="findings-ta" placeholder="Findings..."></textarea></div>
+
+        <div class="attach-cell">
+          <label class="attach-btn" for="attach-621">
+            <span style="font-size:15px">📎</span> แนบ
+          </label>
+          <input class="attach-input" type="file" id="attach-621" 
+                 accept="image/*,.pdf" multiple onchange="handleAttach(this,'621')">
+          <div class="attach-preview" id="preview-621"></div>
+        </div>
+      </div>
+      <!-- 6.3.2 -->
+      <div class="check-row" id="row-632">
+        <div class="row-cell cell-id">6.3.2</div>
+        <div class="row-cell">มีการทำความสะอาดและบำรุงรักษาอุปกรณ์เชื้อเพลิงสม่ำเสมอ</div>
+        <div class="row-cell cell-evidence">ตารางบำรุงรักษาอุปกรณ์ · บันทึกการซ่อมบำรุง · ภาพถ่ายอุปกรณ์</div>
+        <div class="row-cell cell-redflag">อุปกรณ์สกปรก/อุดตัน · ไม่มีแผนบำรุงรักษา · ใช้พลังงานเกินปกติ</div>
+        <div class="row-cell cell-result">
+          <button class="result-btn" onclick="setResult(this,'632','pass')">✓ ผ่าน</button>
+          <button class="result-btn" onclick="setResult(this,'632','fail')">✗ ไม่ผ่าน</button>
+        </div>
+        <div class="row-cell"><textarea class="findings-ta" placeholder="Findings..."></textarea></div>
+
+        <div class="attach-cell">
+          <label class="attach-btn" for="attach-622">
+            <span style="font-size:15px">📎</span> แนบ
+          </label>
+          <input class="attach-input" type="file" id="attach-622" 
+                 accept="image/*,.pdf" multiple onchange="handleAttach(this,'622')">
+          <div class="attach-preview" id="preview-622"></div>
+        </div>
       </div>
     </div>
   </div>
@@ -927,7 +1294,8 @@
       <div class="col-header">
         <div class="col-hdr">ข้อ</div><div class="col-hdr">ตัวชี้วัด</div>
         <div class="col-hdr">หลักฐาน</div><div class="col-hdr">⚠️ Red Flag</div>
-        <div class="col-hdr text-center">ผล</div><div class="col-hdr">Findings</div>
+        <div class="col-hdr text-center">ผล</div><div class="col-hdr">หมายเหตุ / Findings</div>
+        <div class="col-hdr text-center">📎 แนบหลักฐาน</div>
       </div>
       <div class="check-row" id="row-711">
         <div class="row-cell cell-id">7.1.1</div>
@@ -939,6 +1307,15 @@
           <button class="result-btn" onclick="setResult(this,'711','fail')">✗ ไม่ผ่าน</button>
         </div>
         <div class="row-cell"><textarea class="findings-ta" placeholder="Findings..."></textarea></div>
+
+        <div class="attach-cell">
+          <label class="attach-btn" for="attach-631">
+            <span style="font-size:15px">📎</span> แนบ
+          </label>
+          <input class="attach-input" type="file" id="attach-631" 
+                 accept="image/*,.pdf" multiple onchange="handleAttach(this,'631')">
+          <div class="attach-preview" id="preview-631"></div>
+        </div>
       </div>
       <div class="check-row" id="row-721">
         <div class="row-cell cell-id">7.2.1</div>
@@ -950,6 +1327,15 @@
           <button class="result-btn" onclick="setResult(this,'721','fail')">✗ ไม่ผ่าน</button>
         </div>
         <div class="row-cell"><textarea class="findings-ta" placeholder="Findings..."></textarea></div>
+
+        <div class="attach-cell">
+          <label class="attach-btn" for="attach-632">
+            <span style="font-size:15px">📎</span> แนบ
+          </label>
+          <input class="attach-input" type="file" id="attach-632" 
+                 accept="image/*,.pdf" multiple onchange="handleAttach(this,'632')">
+          <div class="attach-preview" id="preview-632"></div>
+        </div>
       </div>
     </div>
   </div>
@@ -969,7 +1355,8 @@
         <div class="col-hdr">หลักฐานที่ต้องดู</div>
         <div class="col-hdr">⚠️ จุดที่สับสนบ่อย</div>
         <div class="col-hdr text-center">คะแนน</div>
-        <div class="col-hdr">Findings</div>
+        <div class="col-hdr">หมายเหตุ / Findings</div>
+        <div class="col-hdr text-center">📎 แนบหลักฐาน</div>
       </div>
       <!-- CE rows -->
       <div id="ce-rows"></div>
@@ -1037,8 +1424,8 @@ const sections = {
   s2: { label:'หมวด 2', max:15, rows:['211','221','222','231'] },
   s3: { label:'หมวด 3 ★', max:30, rows:['311','312','321','322','331','332','333','341','342'] },
   s4: { label:'หมวด 4', max:15, rows:['411','421','431'] },
-  s5: { label:'หมวด 5 ★', max:15, rows:['511','512','513','521','522'] },
-  s6: { label:'หมวด 6', max:15, rows:['611','612','613','621','622','631'] },
+  s5: { label:'หมวด 5 ★', max:15, rows:['511','512','513','521','522','531','532'] },
+  s6: { label:'หมวด 6', max:15, rows:['611','612','613','621','622','631','632'] },
   s7: { label:'หมวด 7', max:5,  rows:['711','721'] },
 };
 const mandatory = { '321': null, '522': null };
@@ -1250,6 +1637,51 @@ function clearAll() {
 }
 
 updateAll();
+
+// ── ATTACHMENT HANDLER ──
+const attachments = {};
+
+function handleAttach(input, rid) {
+  const files = Array.from(input.files);
+  if (!files.length) return;
+  if (!attachments[rid]) attachments[rid] = [];
+  
+  files.forEach(file => {
+    const entry = { name: file.name, type: file.type, size: file.size };
+    attachments[rid].push(entry);
+    
+    const preview = document.getElementById('preview-' + rid);
+    const tag = document.createElement('div');
+    
+    if (file.type.startsWith('image/')) {
+      const reader = new FileReader();
+      reader.onload = e => {
+        tag.className = 'attach-tag img-tag';
+        tag.innerHTML = `<img src="${e.target.result}" class="attach-thumb" alt="${file.name}">
+          <span style="font-size:11px;word-break:break-all">${file.name}</span>
+          <button class="attach-remove" onclick="removeAttach(this,'${rid}','${file.name}')" title="ลบ">✕</button>`;
+        preview.appendChild(tag);
+      };
+      reader.readAsDataURL(file);
+    } else if (file.type === 'application/pdf') {
+      tag.className = 'attach-tag pdf-tag';
+      tag.innerHTML = `<span style="font-size:14px">📄</span>
+        <span style="font-size:11px;word-break:break-all">${file.name}</span>
+        <span style="font-size:10px;color:#991B1B;margin-left:2px">(${(file.size/1024).toFixed(0)} KB)</span>
+        <button class="attach-remove" onclick="removeAttach(this,'${rid}','${file.name}')" title="ลบ">✕</button>`;
+      preview.appendChild(tag);
+    }
+  });
+  input.value = '';
+}
+
+function removeAttach(btn, rid, fname) {
+  if (attachments[rid]) {
+    attachments[rid] = attachments[rid].filter(a => a.name !== fname);
+  }
+  btn.closest('.attach-tag').remove();
+}
+
 </script>
 
 <!-- FOOTER -->
