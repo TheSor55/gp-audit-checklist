@@ -1,0 +1,1288 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>แบบประเมิน Green Production 2569</title>
+<link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --green-900: #1B4332;
+    --green-800: #2D6A4F;
+    --green-700: #40916C;
+    --green-600: #52B788;
+    --green-100: #D8F3DC;
+    --green-50:  #F0FBF4;
+    --red-800:   #9B1C1C;
+    --red-100:   #FEE2E2;
+    --amber-800: #92400E;
+    --amber-100: #FEF3C7;
+    --teal-800:  #134E4A;
+    --teal-600:  #0D9488;
+    --teal-100:  #CCFBF1;
+    --slate-800: #1E293B;
+    --slate-600: #475569;
+    --slate-400: #94A3B8;
+    --slate-200: #E2E8F0;
+    --slate-100: #F1F5F9;
+    --white:     #FFFFFF;
+    --font-th:   'Sarabun', sans-serif;
+    --font-mono: 'IBM Plex Mono', monospace;
+    --radius:    8px;
+    --shadow:    0 1px 3px rgba(0,0,0,.1), 0 1px 2px rgba(0,0,0,.06);
+    --shadow-md: 0 4px 6px rgba(0,0,0,.07), 0 2px 4px rgba(0,0,0,.06);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: var(--font-th);
+    background: #F7F8FA;
+    color: var(--slate-800);
+    font-size: 15px;
+    line-height: 1.6;
+  }
+
+  /* ── TOP BAR ── */
+  .topbar {
+    background: var(--green-900);
+    color: white;
+    padding: 10px 32px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 8px rgba(0,0,0,.25);
+  }
+  .topbar-logo {
+    width: 36px; height: 36px;
+    background: var(--green-600);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px; font-weight: 700; color: white;
+    flex-shrink: 0;
+  }
+  .topbar-title { font-size: 16px; font-weight: 600; }
+  .topbar-sub   { font-size: 12px; color: var(--green-100); }
+  .topbar-right { margin-left: auto; display: flex; gap: 8px; }
+  .btn {
+    padding: 7px 16px; border-radius: 6px; font-family: var(--font-th);
+    font-size: 13px; font-weight: 600; cursor: pointer; border: none;
+    transition: all .15s;
+  }
+  .btn-outline { background: transparent; border: 1.5px solid rgba(255,255,255,.4); color: white; }
+  .btn-outline:hover { background: rgba(255,255,255,.1); }
+  .btn-green  { background: var(--green-600); color: white; }
+  .btn-green:hover  { background: var(--green-700); }
+  .btn-print  { background: white; color: var(--green-900); }
+  .btn-print:hover  { background: var(--green-100); }
+
+  /* ── SCORE TICKER ── */
+  .score-ticker {
+    background: var(--green-800);
+    color: white;
+    padding: 6px 32px;
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    font-size: 13px;
+    flex-wrap: wrap;
+  }
+  .ticker-item { display: flex; align-items: center; gap: 6px; }
+  .ticker-badge {
+    background: rgba(255,255,255,.15);
+    padding: 2px 10px;
+    border-radius: 20px;
+    font-family: var(--font-mono);
+    font-size: 13px;
+    font-weight: 500;
+    min-width: 42px;
+    text-align: center;
+  }
+  .ticker-badge.mandatory-fail { background: var(--red-800); }
+  .ticker-badge.pass           { background: #166534; }
+
+  /* ── LAYOUT ── */
+  .page { max-width: 1200px; margin: 0 auto; padding: 24px 24px 60px; }
+
+  /* ── HEADER CARD ── */
+  .header-card {
+    background: white;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-md);
+    padding: 24px 28px;
+    margin-bottom: 20px;
+    border-left: 5px solid var(--green-700);
+  }
+  .header-card h1 {
+    font-size: 22px; font-weight: 700;
+    color: var(--green-900); margin-bottom: 16px;
+  }
+  .meta-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 12px;
+  }
+  .meta-field label {
+    display: block; font-size: 11px; font-weight: 600;
+    color: var(--slate-600); text-transform: uppercase; letter-spacing: .05em;
+    margin-bottom: 4px;
+  }
+  .meta-field input {
+    width: 100%; padding: 7px 10px;
+    border: 1.5px solid var(--slate-200); border-radius: 5px;
+    font-family: var(--font-th); font-size: 14px; color: var(--slate-800);
+    transition: border-color .15s;
+  }
+  .meta-field input:focus { outline: none; border-color: var(--green-600); }
+
+  /* ── LEGEND ── */
+  .legend {
+    display: flex; gap: 10px; flex-wrap: wrap;
+    margin-bottom: 20px;
+  }
+  .legend-item {
+    display: flex; align-items: center; gap: 7px;
+    padding: 7px 14px; border-radius: 6px;
+    font-size: 13px; font-weight: 500;
+  }
+  .leg-mandatory { background: var(--red-100); color: var(--red-800); border: 1px solid #FECACA; }
+  .leg-teal      { background: var(--teal-100); color: var(--teal-800); border: 1px solid #99F6E4; }
+  .leg-amber     { background: var(--amber-100); color: var(--amber-800); border: 1px solid #FCD34D; }
+
+  /* ── SECTION BLOCK ── */
+  .section-block { margin-bottom: 20px; }
+  .section-header {
+    display: flex; align-items: center; gap: 12px;
+    padding: 12px 18px;
+    border-radius: var(--radius) var(--radius) 0 0;
+    cursor: pointer; user-select: none;
+  }
+  .section-header.s1  { background: var(--green-800); }
+  .section-header.s2  { background: #1565A0; }
+  .section-header.s3  { background: var(--red-800); }
+  .section-header.s4  { background: #3949AB; }
+  .section-header.s5  { background: #7B1C1C; }
+  .section-header.s6  { background: var(--teal-800); }
+  .section-header.s7  { background: #4E342E; }
+  .section-header.sce { background: var(--teal-600); }
+  .section-title {
+    color: white; font-size: 15px; font-weight: 700; flex: 1;
+  }
+  .section-badge {
+    background: rgba(255,255,255,.2);
+    color: white; font-size: 12px; font-weight: 600;
+    padding: 2px 10px; border-radius: 20px;
+    font-family: var(--font-mono);
+  }
+  .section-chevron {
+    color: rgba(255,255,255,.7); font-size: 14px;
+    transition: transform .25s;
+  }
+  .section-header.collapsed .section-chevron { transform: rotate(-90deg); }
+  .section-progress {
+    background: rgba(255,255,255,.15);
+    border-radius: 20px;
+    padding: 2px 10px;
+    font-size: 12px; color: white;
+    font-family: var(--font-mono);
+  }
+
+  .section-body {
+    background: white;
+    border: 1px solid var(--slate-200);
+    border-top: none;
+    border-radius: 0 0 var(--radius) var(--radius);
+    overflow: hidden;
+  }
+
+  /* ── ROW ── */
+  .check-row {
+    display: grid;
+    grid-template-columns: 70px 1fr 1fr 1fr 140px 1fr;
+    border-bottom: 1px solid var(--slate-100);
+    transition: background .1s;
+  }
+  .check-row:last-child { border-bottom: none; }
+  .check-row:hover { background: var(--slate-100); }
+  .check-row.mandatory { background: var(--red-100); }
+  .check-row.mandatory:hover { background: #FEE2E2; }
+
+  .row-cell {
+    padding: 10px 14px;
+    border-right: 1px solid var(--slate-100);
+    font-size: 14px; line-height: 1.5;
+  }
+  .row-cell:last-child { border-right: none; }
+
+  .cell-id {
+    font-family: var(--font-mono); font-size: 13px; font-weight: 600;
+    color: var(--green-800); text-align: center;
+    display: flex; flex-direction: column; align-items: center;
+    justify-content: flex-start; padding-top: 12px; gap: 5px;
+  }
+  .mandatory-star {
+    background: var(--red-800); color: white;
+    font-size: 10px; padding: 1px 6px; border-radius: 3px;
+    font-family: var(--font-th); font-weight: 700;
+  }
+  .cell-id.mandatory-id { color: var(--red-800); }
+
+  .cell-evidence { color: var(--teal-800); font-size: 13px; }
+  .cell-redflag  { color: var(--amber-800); font-size: 13px; background: var(--amber-100); }
+  .check-row.mandatory .cell-redflag { background: #FEE2E2; color: var(--red-800); }
+
+  /* ── RESULT CELL ── */
+  .cell-result {
+    display: flex; flex-direction: column; align-items: center;
+    justify-content: center; gap: 6px; padding: 10px 8px;
+  }
+  .result-btn {
+    width: 100%; padding: 5px 0;
+    border-radius: 5px; font-family: var(--font-th);
+    font-size: 13px; font-weight: 600; cursor: pointer;
+    border: 1.5px solid var(--slate-200);
+    background: white; color: var(--slate-600);
+    transition: all .15s;
+  }
+  .result-btn:hover { border-color: var(--slate-400); }
+  .result-btn.selected-pass {
+    background: #DCFCE7; border-color: #16A34A; color: #166534;
+  }
+  .result-btn.selected-fail {
+    background: var(--red-100); border-color: var(--red-800); color: var(--red-800);
+  }
+
+  /* CE score buttons */
+  .ce-score-group { display: flex; gap: 4px; }
+  .score-btn {
+    flex: 1; padding: 5px 0; border-radius: 5px;
+    font-family: var(--font-mono); font-size: 13px; font-weight: 600;
+    cursor: pointer; border: 1.5px solid var(--slate-200);
+    background: white; color: var(--slate-600); transition: all .15s;
+  }
+  .score-btn:hover { border-color: var(--slate-400); }
+  .score-btn.sel0 { background: var(--red-100); border-color: var(--red-800); color: var(--red-800); }
+  .score-btn.sel1 { background: var(--amber-100); border-color: #D97706; color: var(--amber-800); }
+  .score-btn.sel2 { background: #DCFCE7; border-color: #16A34A; color: #166534; }
+
+  /* ── FINDINGS TEXTAREA ── */
+  .findings-ta {
+    width: 100%; min-height: 50px; padding: 6px 8px;
+    border: 1px solid var(--slate-200); border-radius: 5px;
+    font-family: var(--font-th); font-size: 13px; color: var(--slate-800);
+    resize: vertical; background: transparent;
+  }
+  .findings-ta:focus { outline: none; border-color: var(--green-600); background: white; }
+
+  /* ── COLUMN HEADERS ── */
+  .col-header {
+    display: grid;
+    grid-template-columns: 70px 1fr 1fr 1fr 140px 1fr;
+    background: var(--slate-100);
+    border-bottom: 2px solid var(--slate-200);
+  }
+  .col-hdr {
+    padding: 7px 14px;
+    font-size: 11px; font-weight: 700;
+    color: var(--slate-600); text-transform: uppercase; letter-spacing: .06em;
+    border-right: 1px solid var(--slate-200);
+  }
+  .col-hdr:last-child { border-right: none; }
+
+  /* CE col headers */
+  .col-header.ce-hdr {
+    grid-template-columns: 70px 1.4fr 1.2fr 1.2fr 120px 1fr;
+  }
+  .check-row.ce-row {
+    grid-template-columns: 70px 1.4fr 1.2fr 1.2fr 120px 1fr;
+  }
+
+  /* ── SCORE SUMMARY ── */
+  .summary-card {
+    background: white;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-md);
+    padding: 24px 28px;
+    margin-top: 20px;
+  }
+  .summary-card h2 {
+    font-size: 18px; font-weight: 700;
+    color: var(--green-900); margin-bottom: 16px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--green-100);
+  }
+  .summary-table { width: 100%; border-collapse: collapse; font-size: 14px; }
+  .summary-table th {
+    background: var(--green-900); color: white;
+    padding: 9px 14px; text-align: left; font-weight: 600;
+    font-size: 13px;
+  }
+  .summary-table td { padding: 9px 14px; border-bottom: 1px solid var(--slate-100); }
+  .summary-table tr:last-child td { border-bottom: none; }
+  .summary-table tr.total-row td {
+    background: var(--green-100); font-weight: 700; color: var(--green-900);
+  }
+  .summary-table tr.ce-row-s td {
+    background: var(--teal-100); color: var(--teal-800); font-weight: 600;
+  }
+  .score-display {
+    font-family: var(--font-mono); font-weight: 600;
+    padding: 2px 10px; border-radius: 4px;
+    display: inline-block; min-width: 40px; text-align: center;
+  }
+  .sd-pass { background: #DCFCE7; color: #166534; }
+  .sd-fail { background: var(--red-100); color: var(--red-800); }
+  .sd-neutral { background: var(--slate-100); color: var(--slate-600); }
+
+  /* ── CERT LEVELS ── */
+  .cert-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 12px;
+    margin-top: 16px;
+  }
+  .cert-card {
+    border-radius: var(--radius); padding: 14px 16px;
+    border: 1.5px solid;
+  }
+  .cert-copper { background: #FFF7ED; border-color: #CD7F32; }
+  .cert-silver { background: #F8FAFC; border-color: #94A3B8; }
+  .cert-gold   { background: #FEFCE8; border-color: #CA8A04; }
+  .cert-plus   { background: var(--green-50); border-color: var(--green-600); }
+  .cert-icon   { font-size: 24px; margin-bottom: 6px; }
+  .cert-name   { font-weight: 700; font-size: 15px; margin-bottom: 3px; }
+  .cert-score  { font-family: var(--font-mono); font-size: 13px; color: var(--slate-600); margin-bottom: 6px; }
+  .cert-benefit { font-size: 13px; color: var(--slate-600); line-height: 1.4; }
+
+  /* ── MANDATORY BOX ── */
+  .mandatory-box {
+    background: var(--red-100); border: 1.5px solid #FECACA;
+    border-radius: var(--radius); padding: 16px 20px;
+    margin-top: 16px;
+  }
+  .mandatory-box h3 { color: var(--red-800); font-size: 15px; margin-bottom: 10px; }
+  .mandatory-box ol { padding-left: 20px; }
+  .mandatory-box li { color: var(--red-800); font-size: 14px; margin-bottom: 4px; }
+
+  /* ── PRINT STYLES ── */
+  @media print {
+    .topbar, .score-ticker, .topbar-right { display: none !important; }
+    body { background: white; }
+    .page { padding: 10px; }
+    .section-body { display: block !important; }
+    .findings-ta { min-height: 35px; }
+    .check-row { break-inside: avoid; }
+    .section-block { break-inside: avoid; }
+  }
+
+  /* ── UTILITY ── */
+  .hidden { display: none; }
+  .text-center { text-align: center; }
+  .text-mono { font-family: var(--font-mono); }
+  .mt-8 { margin-top: 8px; }
+  .tag {
+    display: inline-block; padding: 1px 7px;
+    border-radius: 4px; font-size: 11px; font-weight: 600;
+    margin-left: 6px; vertical-align: middle;
+  }
+  .tag-mandatory { background: var(--red-800); color: white; }
+  .tag-ce { background: var(--teal-600); color: white; }
+
+  /* ── OVERALL RESULT BANNER ── */
+  .result-banner {
+    border-radius: var(--radius); padding: 14px 20px;
+    display: flex; align-items: center; gap: 12px;
+    margin-bottom: 16px; font-weight: 700; font-size: 16px;
+    transition: all .3s;
+  }
+  .result-banner.pass { background: #DCFCE7; color: #166534; border: 2px solid #16A34A; }
+  .result-banner.fail { background: var(--red-100); color: var(--red-800); border: 2px solid #DC2626; }
+  .result-banner.pending { background: var(--slate-100); color: var(--slate-600); border: 2px solid var(--slate-300); }
+</style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="topbar">
+  <div class="topbar-logo">G</div>
+  <div>
+    <div class="topbar-title">แบบประเมิน Green Production (GP) 2569</div>
+    <div class="topbar-sub">กรมการเปลี่ยนแปลงสภาพภูมิอากาศและสิ่งแวดล้อม (DCCE)</div>
+  </div>
+  <div class="topbar-right">
+    <button class="btn btn-outline" onclick="expandAll()">ขยายทั้งหมด</button>
+    <button class="btn btn-outline" onclick="collapseAll()">ย่อทั้งหมด</button>
+    <button class="btn btn-green" onclick="clearAll()">ล้างข้อมูล</button>
+    <button class="btn btn-print" onclick="window.print()">🖨 พิมพ์</button>
+  </div>
+</div>
+
+<!-- SCORE TICKER -->
+<div class="score-ticker">
+  <div class="ticker-item">GP Core: <span class="ticker-badge" id="tick-total">0/100</span></div>
+  <div class="ticker-item">หมวด 3 (★): <span class="ticker-badge" id="tick-s3">0/30</span></div>
+  <div class="ticker-item">หมวด 5 (★): <span class="ticker-badge" id="tick-s5">0/15</span></div>
+  <div class="ticker-item">CE: <span class="ticker-badge" id="tick-ce">0/20</span></div>
+  <div class="ticker-item" style="margin-left:auto">
+    Mandatory 3.2.1: <span class="ticker-badge" id="tick-321">—</span>
+  </div>
+  <div class="ticker-item">
+    Mandatory 5.2.2: <span class="ticker-badge" id="tick-522">—</span>
+  </div>
+  <div class="ticker-item">
+    สถานะ: <span class="ticker-badge" id="tick-status" style="min-width:80px">รอประเมิน</span>
+  </div>
+</div>
+
+<div class="page">
+
+  <!-- HEADER CARD -->
+  <div class="header-card">
+    <h1>📋 แบบประเมิน Green Production (GP) 2569</h1>
+    <div class="meta-grid">
+      <div class="meta-field">
+        <label>สถานประกอบการ</label>
+        <input type="text" id="meta-name" placeholder="ชื่อสถานประกอบการ">
+      </div>
+      <div class="meta-field">
+        <label>ประเภทผลิตภัณฑ์</label>
+        <input type="text" id="meta-type" placeholder="สิ่งทอ / เซรามิก / สบู่ / จักสาน / อื่นๆ">
+      </div>
+      <div class="meta-field">
+        <label>รหัสสถานประกอบการ</label>
+        <input type="text" id="meta-code" placeholder="รหัส GP">
+      </div>
+      <div class="meta-field">
+        <label>ผู้ตรวจประเมิน</label>
+        <input type="text" id="meta-auditor" placeholder="ชื่อผู้ตรวจ">
+      </div>
+      <div class="meta-field">
+        <label>วันที่ตรวจประเมิน</label>
+        <input type="date" id="meta-date">
+      </div>
+      <div class="meta-field">
+        <label>เข้าข่ายโรงงาน?</label>
+        <select id="meta-factory" style="width:100%;padding:7px 10px;border:1.5px solid #E2E8F0;border-radius:5px;font-family:var(--font-th);font-size:14px">
+          <option value="">-- เลือก --</option>
+          <option value="yes">ใช่ (บังคับประเมิน 5.2.2)</option>
+          <option value="no">ไม่ใช่ (N.A. สำหรับ 5.2.2)</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <!-- LEGEND -->
+  <div class="legend">
+    <div class="legend-item leg-mandatory">⛔ แถวสีแดง = เกณฑ์บังคับผ่าน (Mandatory) — ตกทันทีถ้าไม่ผ่าน</div>
+    <div class="legend-item leg-teal">🔵 เกณฑ์ CE = ส่วนเพิ่ม 20 คะแนน ไม่นับรวม GP Core</div>
+    <div class="legend-item leg-amber">⚠️ Red Flag = จุดที่ต้องระวังเป็นพิเศษ</div>
+  </div>
+
+  <!-- ══════════════════════════════════ -->
+  <!-- GP CORE SECTIONS -->
+  <!-- ══════════════════════════════════ -->
+
+  <!-- S1 -->
+  <div class="section-block" id="sec-s1">
+    <div class="section-header s1" onclick="toggleSection('s1')">
+      <span class="section-title">หมวด 1 — นโยบาย แนวคิด และเป้าหมาย</span>
+      <span class="section-badge">5 คะแนน</span>
+      <span class="section-progress" id="prog-s1">0/2</span>
+      <span class="section-chevron">▾</span>
+    </div>
+    <div class="section-body" id="body-s1">
+      <div class="col-header">
+        <div class="col-hdr">ข้อ</div>
+        <div class="col-hdr">ตัวชี้วัด / สิ่งที่ตรวจ</div>
+        <div class="col-hdr">หลักฐานที่ต้องดู</div>
+        <div class="col-hdr">⚠️ Red Flag</div>
+        <div class="col-hdr text-center">ผ่าน / ไม่ผ่าน</div>
+        <div class="col-hdr">หมายเหตุ / Findings</div>
+      </div>
+      <!-- 1.1.1 -->
+      <div class="check-row" id="row-111">
+        <div class="row-cell cell-id">1.1.1</div>
+        <div class="row-cell">มีนโยบาย/แนวคิด/เป้าหมายการผลิตที่เป็นมิตรกับสิ่งแวดล้อม เป็นลายลักษณ์อักษร และทุกคนรับรู้/เข้าใจตรงกัน</div>
+        <div class="row-cell cell-evidence">เอกสารนโยบาย · ประกาศติดผนัง · ภาพถ่ายพื้นที่</div>
+        <div class="row-cell cell-redflag">นโยบายมีแต่พนักงานไม่รู้เนื้อหา · ไม่สอดคล้องกับสภาพจริง</div>
+        <div class="row-cell cell-result">
+          <button class="result-btn" onclick="setResult(this,'111','pass')">✓ ผ่าน</button>
+          <button class="result-btn" onclick="setResult(this,'111','fail')">✗ ไม่ผ่าน</button>
+        </div>
+        <div class="row-cell"><textarea class="findings-ta" placeholder="บันทึก Findings..."></textarea></div>
+      </div>
+      <!-- 1.2.1 -->
+      <div class="check-row" id="row-121">
+        <div class="row-cell cell-id">1.2.1</div>
+        <div class="row-cell">มีแผนปรับปรุงกระบวนการผลิตอย่างต่อเนื่อง (Cleaner Technology / ภูมิปัญญาท้องถิ่น) ครอบคลุมสิ่งแวดล้อม พลังงาน ทรัพยากร</div>
+        <div class="row-cell cell-evidence">แผนปรับปรุงระบุกิจกรรม ผู้รับผิดชอบ ระยะเวลา · บันทึกผลการทบทวน</div>
+        <div class="row-cell cell-redflag">มีแผนแต่ไม่ติดตามผล · แผนยังไม่ได้ดำเนินการ</div>
+        <div class="row-cell cell-result">
+          <button class="result-btn" onclick="setResult(this,'121','pass')">✓ ผ่าน</button>
+          <button class="result-btn" onclick="setResult(this,'121','fail')">✗ ไม่ผ่าน</button>
+        </div>
+        <div class="row-cell"><textarea class="findings-ta" placeholder="บันทึก Findings..."></textarea></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- S2 -->
+  <div class="section-block" id="sec-s2">
+    <div class="section-header s2" onclick="toggleSection('s2')">
+      <span class="section-title">หมวด 2 — การผลิต วัตถุดิบ และบรรจุภัณฑ์</span>
+      <span class="section-badge">15 คะแนน</span>
+      <span class="section-progress" id="prog-s2">0/4</span>
+      <span class="section-chevron">▾</span>
+    </div>
+    <div class="section-body" id="body-s2">
+      <div class="col-header">
+        <div class="col-hdr">ข้อ</div><div class="col-hdr">ตัวชี้วัด</div>
+        <div class="col-hdr">หลักฐาน</div><div class="col-hdr">⚠️ Red Flag</div>
+        <div class="col-hdr text-center">ผล</div><div class="col-hdr">Findings</div>
+      </div>
+      <!-- rows -->
+      <div class="check-row" id="row-211">
+        <div class="row-cell cell-id">2.1.1</div>
+        <div class="row-cell">มีขั้นตอนการผลิต (Flow Chart) ที่แสดงจุดควบคุมสำคัญ และวิธีจัดการของเสียแต่ละขั้นตอน</div>
+        <div class="row-cell cell-evidence">Flow Chart ครบทุกขั้นตอน · วิธีควบคุม/ตรวจสอบ · วิธีจัดการของเสีย</div>
+        <div class="row-cell cell-redflag">Flow Chart ไม่ตรงกับกระบวนการจริง · ไม่มีจุดควบคุม</div>
+        <div class="row-cell cell-result">
+          <button class="result-btn" onclick="setResult(this,'211','pass')">✓ ผ่าน</button>
+          <button class="result-btn" onclick="setResult(this,'211','fail')">✗ ไม่ผ่าน</button>
+        </div>
+        <div class="row-cell"><textarea class="findings-ta" placeholder="Findings..."></textarea></div>
+      </div>
+      <div class="check-row" id="row-221">
+        <div class="row-cell cell-id">2.2.1</div>
+        <div class="row-cell">ใช้วัตถุดิบหลักที่เป็นมิตรกับสิ่งแวดล้อม มีเกณฑ์คัดเลือก และหลักฐานแหล่งที่มา</div>
+        <div class="row-cell cell-evidence">บันทึกการซื้อวัตถุดิบ (ชนิด ปริมาณ วันที่) · ใบเสร็จ · รายชื่อผู้จำหน่าย</div>
+        <div class="row-cell cell-redflag">ไม่มีเกณฑ์คัดเลือก · ไม่รู้แหล่งที่มา</div>
+        <div class="row-cell cell-result">
+          <button class="result-btn" onclick="setResult(this,'221','pass')">✓ ผ่าน</button>
+          <button class="result-btn" onclick="setResult(this,'221','fail')">✗ ไม่ผ่าน</button>
+        </div>
+        <div class="row-cell"><textarea class="findings-ta" placeholder="Findings..."></textarea></div>
+      </div>
+      <div class="check-row" id="row-222">
+        <div class="row-cell cell-id">2.2.2</div>
+        <div class="row-cell">ใช้วัตถุดิบท้องถิ่น (ลดระยะขนส่ง ลด Carbon Footprint)</div>
+        <div class="row-cell cell-evidence">ใบเสร็จ/ใบส่งของจากผู้จำหน่ายในพื้นที่ · แผนที่แหล่งวัตถุดิบ</div>
+        <div class="row-cell cell-redflag">อ้างว่าใช้วัตถุดิบท้องถิ่นแต่ไม่มีหลักฐาน</div>
+        <div class="row-cell cell-result">
+          <button class="result-btn" onclick="setResult(this,'222','pass')">✓ ผ่าน</button>
+          <button class="result-btn" onclick="setResult(this,'222','fail')">✗ ไม่ผ่าน</button>
+        </div>
+        <div class="row-cell"><textarea class="findings-ta" placeholder="Findings..."></textarea></div>
+      </div>
+      <div class="check-row" id="row-231">
+        <div class="row-cell cell-id">2.3.1</div>
+        <div class="row-cell">ใช้บรรจุภัณฑ์ไม่เกินความจำเป็น และ/หรือเป็นมิตรกับสิ่งแวดล้อม (ลดปริมาณ รีไซเคิลได้ ย่อยสลายได้)</div>
+        <div class="row-cell cell-evidence">ตัวอย่างบรรจุภัณฑ์ · เอกสารเหตุผลการออกแบบ · ฉลากสิ่งแวดล้อม</div>
+        <div class="row-cell cell-redflag">บรรจุภัณฑ์ซ้ำซ้อน/เกินความจำเป็น · ไม่มีแนวคิด DfE</div>
+        <div class="row-cell cell-result">
+          <button class="result-btn" onclick="setResult(this,'231','pass')">✓ ผ่าน</button>
+          <button class="result-btn" onclick="setResult(this,'231','fail')">✗ ไม่ผ่าน</button>
+        </div>
+        <div class="row-cell"><textarea class="findings-ta" placeholder="Findings..."></textarea></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- S3 — MANDATORY -->
+  <div class="section-block" id="sec-s3">
+    <div class="section-header s3" onclick="toggleSection('s3')">
+      <span class="section-title">หมวด 3 — การจัดการกระบวนการผลิตและความเสี่ยง <span class="tag tag-mandatory">★ บังคับผ่าน 3.2.1</span></span>
+      <span class="section-badge">30 คะแนน</span>
+      <span class="section-progress" id="prog-s3">0/8</span>
+      <span class="section-chevron">▾</span>
+    </div>
+    <div class="section-body" id="body-s3">
+      <div class="col-header">
+        <div class="col-hdr">ข้อ</div><div class="col-hdr">ตัวชี้วัด</div>
+        <div class="col-hdr">หลักฐาน</div><div class="col-hdr">⚠️ Red Flag</div>
+        <div class="col-hdr text-center">ผล</div><div class="col-hdr">Findings</div>
+      </div>
+      <div class="check-row" id="row-311">
+        <div class="row-cell cell-id">3.1.1</div>
+        <div class="row-cell">มีเกณฑ์คัดเลือกวัตถุดิบเป็นลายลักษณ์อักษร ทุกคนเข้าใจ และปฏิบัติได้</div>
+        <div class="row-cell cell-evidence">WI/คู่มือการคัดเลือกวัตถุดิบ · บันทึกการคัดเลือก</div>
+        <div class="row-cell cell-redflag">เกณฑ์มีแต่พนักงานไม่ทราบ</div>
+        <div class="row-cell cell-result">
+          <button class="result-btn" onclick="setResult(this,'311','pass')">✓ ผ่าน</button>
+          <button class="result-btn" onclick="setResult(this,'311','fail')">✗ ไม่ผ่าน</button>
+        </div>
+        <div class="row-cell"><textarea class="findings-ta" placeholder="Findings..."></textarea></div>
+      </div>
+      <div class="check-row" id="row-312">
+        <div class="row-cell cell-id">3.1.2</div>
+        <div class="row-cell">จัดเก็บวัตถุดิบเหมาะสม ปลอดภัย (FIFO ติดป้ายวันที่ ป้องกันความชื้น/แสง/แมลง)</div>
+        <div class="row-cell cell-evidence">ภาพถ่ายพื้นที่จัดเก็บ · ป้ายฉลากวันที่ · บันทึก FIFO</div>
+        <div class="row-cell cell-redflag">ไม่มีป้ายวันที่ · วัตถุดิบเก่าอยู่ด้านใน · ปนกับสารเคมี</div>
+        <div class="row-cell cell-result">
+          <button class="result-btn" onclick="setResult(this,'312','pass')">✓ ผ่าน</button>
+          <button class="result-btn" onclick="setResult(this,'312','fail')">✗ ไม่ผ่าน</button>
+        </div>
+        <div class="row-cell"><textarea class="findings-ta" placeholder="Findings..."></textarea></div>
+      </div>
+      <!-- MANDATORY 3.2.1 -->
+      <div class="check-row mandatory" id="row-321">
+        <div class="row-cell cell-id mandatory-id">3.2.1<span class="mandatory-star">★</span></div>
+        <div class="row-cell"><strong>ไม่ใช้สีย้อมอะโซ (Azo dyes) / ไม่มี Cd, Pb, Hg เกินมาตรฐาน / ผ่านการทดสอบหรือใช้สารได้รับการรับรอง</strong><br><small style="color:#6B7280">สิ่งทอ: ระวัง Azo, โลหะหนัก · เซรามิก: Lead-free · จักสาน: ไม่มีฟอร์มาลดีไฮด์ · สบู่: ตามมาตรฐาน อย.</small></div>
+        <div class="row-cell cell-evidence">ผลทดสอบ / ใบรับรองสาร · SDS สารเคมีที่ใช้ · ฉลากสินค้า</div>
+        <div class="row-cell cell-redflag">ไม่มีผลทดสอบ · ใช้สารที่ไม่ได้รับการรับรอง · SDS ไม่ครบ</div>
+        <div class="row-cell cell-result">
+          <button class="result-btn" onclick="setMandatory(this,'321','pass')">✓ ผ่าน</button>
+          <button class="result-btn" onclick="setMandatory(this,'321','fail')">✗ ไม่ผ่าน</button>
+        </div>
+        <div class="row-cell"><textarea class="findings-ta" placeholder="Findings..."></textarea></div>
+      </div>
+      <div class="check-row" id="row-322">
+        <div class="row-cell cell-id">3.2.2</div>
+        <div class="row-cell">ใช้และจัดเก็บสารเคมีอย่างเหมาะสม ปลอดภัย (แยกประเภท มีฉลาก เข้าถึง SDS ได้)</div>
+        <div class="row-cell cell-evidence">บัญชีสารเคมี · SDS ครบทุกชนิด · ภาพถ่ายพื้นที่จัดเก็บ · ฉลากสารเคมี</div>
+        <div class="row-cell cell-redflag">พบสารเคมีไม่มี SDS/ฉลาก · สารไม่อยู่ใน inventory · เก็บรวมสารเข้ากันไม่ได้</div>
+        <div class="row-cell cell-result">
+          <button class="result-btn" onclick="setResult(this,'322','pass')">✓ ผ่าน</button>
+          <button class="result-btn" onclick="setResult(this,'322','fail')">✗ ไม่ผ่าน</button>
+        </div>
+        <div class="row-cell"><textarea class="findings-ta" placeholder="Findings..."></textarea></div>
+      </div>
+      <div class="check-row" id="row-331">
+        <div class="row-cell cell-id">3.3.1</div>
+        <div class="row-cell">มีแนวทางควบคุมคุณภาพและตรวจสอบทุกขั้นตอนการผลิต เป็นลายลักษณ์อักษร</div>
+        <div class="row-cell cell-evidence">WI/ขั้นตอนการ QC · บันทึกผลการตรวจสอบ</div>
+        <div class="row-cell cell-redflag">ไม่มีบันทึก QC · ผลิตภัณฑ์เสียปะปนกับของดี</div>
+        <div class="row-cell cell-result">
+          <button class="result-btn" onclick="setResult(this,'331','pass')">✓ ผ่าน</button>
+          <button class="result-btn" onclick="setResult(this,'331','fail')">✗ ไม่ผ่าน</button>
+        </div>
+        <div class="row-cell"><textarea class="findings-ta" placeholder="Findings..."></textarea></div>
+      </div>
+      <div class="check-row" id="row-332">
+        <div class="row-cell cell-id">3.3.2</div>
+        <div class="row-cell">ควบคุมคุณภาพผลิตภัณฑ์ก่อนจำหน่าย</div>
+        <div class="row-cell cell-evidence">บันทึก QC ก่อนส่ง · ใบตรวจรับ</div>
+        <div class="row-cell cell-redflag">ส่งสินค้าโดยไม่ผ่านการตรวจ</div>
+        <div class="row-cell cell-result">
+          <button class="result-btn" onclick="setResult(this,'332','pass')">✓ ผ่าน</button>
+          <button class="result-btn" onclick="setResult(this,'332','fail')">✗ ไม่ผ่าน</button>
+        </div>
+        <div class="row-cell"><textarea class="findings-ta" placeholder="Findings..."></textarea></div>
+      </div>
+      <div class="check-row" id="row-333">
+        <div class="row-cell cell-id">3.3.3</div>
+        <div class="row-cell">จัดเก็บผลิตภัณฑ์ป้องกันความเสียหาย (ป้ายระบุ แยกตามประเภท ปลอดภัย)</div>
+        <div class="row-cell cell-evidence">ภาพถ่ายพื้นที่จัดเก็บ · ป้ายระบุชนิดและวันที่</div>
+        <div class="row-cell cell-redflag">ไม่มีป้าย · ผลิตภัณฑ์เสียหายจากการจัดเก็บ</div>
+        <div class="row-cell cell-result">
+          <button class="result-btn" onclick="setResult(this,'333','pass')">✓ ผ่าน</button>
+          <button class="result-btn" onclick="setResult(this,'333','fail')">✗ ไม่ผ่าน</button>
+        </div>
+        <div class="row-cell"><textarea class="findings-ta" placeholder="Findings..."></textarea></div>
+      </div>
+      <div class="check-row" id="row-341">
+        <div class="row-cell cell-id">3.4.1</div>
+        <div class="row-cell">บันทึกชนิดและปริมาณวัตถุดิบ/สารเคมีที่ใช้เป็นประจำ นำมาวิเคราะห์/ปรับปรุงได้</div>
+        <div class="row-cell cell-evidence">บันทึกการผลิต (ชนิด ปริมาณ วันที่) · รายงานสรุปรายเดือน</div>
+        <div class="row-cell cell-redflag">บันทึกไม่สมบูรณ์ · ไม่สามารถย้อนตรวจสอบได้</div>
+        <div class="row-cell cell-result">
+          <button class="result-btn" onclick="setResult(this,'341','pass')">✓ ผ่าน</button>
+          <button class="result-btn" onclick="setResult(this,'341','fail')">✗ ไม่ผ่าน</button>
+        </div>
+        <div class="row-cell"><textarea class="findings-ta" placeholder="Findings..."></textarea></div>
+      </div>
+      <div class="check-row" id="row-342">
+        <div class="row-cell cell-id">3.4.2</div>
+        <div class="row-cell">บันทึกจำนวนผลิตภัณฑ์และแหล่งจำหน่าย นำมาวิเคราะห์การตลาดได้</div>
+        <div class="row-cell cell-evidence">บันทึกการจำหน่าย · ทะเบียนลูกค้า</div>
+        <div class="row-cell cell-redflag">ไม่มีบันทึกการจำหน่าย</div>
+        <div class="row-cell cell-result">
+          <button class="result-btn" onclick="setResult(this,'342','pass')">✓ ผ่าน</button>
+          <button class="result-btn" onclick="setResult(this,'342','fail')">✗ ไม่ผ่าน</button>
+        </div>
+        <div class="row-cell"><textarea class="findings-ta" placeholder="Findings..."></textarea></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- S4 -->
+  <div class="section-block" id="sec-s4">
+    <div class="section-header s4" onclick="toggleSection('s4')">
+      <span class="section-title">หมวด 4 — ความปลอดภัยและอาชีวอนามัย</span>
+      <span class="section-badge">15 คะแนน</span>
+      <span class="section-progress" id="prog-s4">0/3</span>
+      <span class="section-chevron">▾</span>
+    </div>
+    <div class="section-body" id="body-s4">
+      <div class="col-header">
+        <div class="col-hdr">ข้อ</div><div class="col-hdr">ตัวชี้วัด</div>
+        <div class="col-hdr">หลักฐาน</div><div class="col-hdr">⚠️ Red Flag</div>
+        <div class="col-hdr text-center">ผล</div><div class="col-hdr">Findings</div>
+      </div>
+      <div class="check-row" id="row-411">
+        <div class="row-cell cell-id">4.1.1</div>
+        <div class="row-cell">สภาพแวดล้อมการทำงานเหมาะสม (แสง เสียง การระบายอากาศ ความสะอาด) ตามหลัก 5ส</div>
+        <div class="row-cell cell-evidence">ภาพถ่ายพื้นที่ · บันทึก 5ส · ผลการวัดแสง/เสียง (ถ้ามี)</div>
+        <div class="row-cell cell-redflag">พื้นที่ทำงานแออัด ระบายอากาศไม่ดี · ไม่มีป้ายเตือนอันตราย</div>
+        <div class="row-cell cell-result">
+          <button class="result-btn" onclick="setResult(this,'411','pass')">✓ ผ่าน</button>
+          <button class="result-btn" onclick="setResult(this,'411','fail')">✗ ไม่ผ่าน</button>
+        </div>
+        <div class="row-cell"><textarea class="findings-ta" placeholder="Findings..."></textarea></div>
+      </div>
+      <div class="check-row" id="row-421">
+        <div class="row-cell cell-id">4.2.1</div>
+        <div class="row-cell">มีอุปกรณ์ป้องกันอันตรายส่วนบุคคล (PPE) เหมาะสมกับงาน และพนักงานใช้จริง</div>
+        <div class="row-cell cell-evidence">บัญชี PPE · ภาพถ่ายพนักงานขณะทำงาน · บันทึกการจ่าย PPE</div>
+        <div class="row-cell cell-redflag">มี PPE แต่ไม่ใช้ · PPE ไม่เหมาะกับสารเคมีที่ใช้</div>
+        <div class="row-cell cell-result">
+          <button class="result-btn" onclick="setResult(this,'421','pass')">✓ ผ่าน</button>
+          <button class="result-btn" onclick="setResult(this,'421','fail')">✗ ไม่ผ่าน</button>
+        </div>
+        <div class="row-cell"><textarea class="findings-ta" placeholder="Findings..."></textarea></div>
+      </div>
+      <div class="check-row" id="row-431">
+        <div class="row-cell cell-id">4.3.1</div>
+        <div class="row-cell">มีอุปกรณ์ป้องกันเหตุฉุกเฉินและปฐมพยาบาลเบื้องต้น พร้อมใช้งาน</div>
+        <div class="row-cell cell-evidence">ถังดับเพลิง (วันตรวจสอบ) · กล่องยา · แผนฉุกเฉิน · บันทึกการซ้อม</div>
+        <div class="row-cell cell-redflag">ถังดับเพลิงหมดอายุ · ไม่มีแผนฉุกเฉิน · พนักงานไม่รู้วิธีใช้</div>
+        <div class="row-cell cell-result">
+          <button class="result-btn" onclick="setResult(this,'431','pass')">✓ ผ่าน</button>
+          <button class="result-btn" onclick="setResult(this,'431','fail')">✗ ไม่ผ่าน</button>
+        </div>
+        <div class="row-cell"><textarea class="findings-ta" placeholder="Findings..."></textarea></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- S5 — MANDATORY -->
+  <div class="section-block" id="sec-s5">
+    <div class="section-header s5" onclick="toggleSection('s5')">
+      <span class="section-title">หมวด 5 — การจัดการของเสียและสิ่งแวดล้อม <span class="tag tag-mandatory">★ บังคับผ่าน 5.2.2</span></span>
+      <span class="section-badge">15 คะแนน</span>
+      <span class="section-progress" id="prog-s5">0/5</span>
+      <span class="section-chevron">▾</span>
+    </div>
+    <div class="section-body" id="body-s5">
+      <div class="col-header">
+        <div class="col-hdr">ข้อ</div><div class="col-hdr">ตัวชี้วัด</div>
+        <div class="col-hdr">หลักฐาน</div><div class="col-hdr">⚠️ Red Flag</div>
+        <div class="col-hdr text-center">ผล</div><div class="col-hdr">Findings</div>
+      </div>
+      <div class="check-row" id="row-511">
+        <div class="row-cell cell-id">5.1.1</div>
+        <div class="row-cell">มีการลดวัสดุไม่ใช้แล้วในกระบวนการผลิต (Source Reduction / Cleaner Technology)</div>
+        <div class="row-cell cell-evidence">บันทึกปริมาณของเสียก่อน-หลัง · แผนลดของเสีย</div>
+        <div class="row-cell cell-redflag">ไม่มีมาตรการลดของเสีย · ไม่มีข้อมูลปริมาณ</div>
+        <div class="row-cell cell-result">
+          <button class="result-btn" onclick="setResult(this,'511','pass')">✓ ผ่าน</button>
+          <button class="result-btn" onclick="setResult(this,'511','fail')">✗ ไม่ผ่าน</button>
+        </div>
+        <div class="row-cell"><textarea class="findings-ta" placeholder="Findings..."></textarea></div>
+      </div>
+      <div class="check-row" id="row-512">
+        <div class="row-cell cell-id">5.1.2</div>
+        <div class="row-cell">มีการคัดแยกและนำวัสดุไม่ใช้แล้วกลับมาใช้ซ้ำ / รีไซเคิล</div>
+        <div class="row-cell cell-evidence">บัญชีวัสดุไม่ใช้แล้ว · ภาพถ่ายจุดคัดแยก · ใบส่งมอบให้ผู้รับซื้อ</div>
+        <div class="row-cell cell-redflag">ไม่คัดแยก · ทิ้งรวมกัน · ไม่มีบัญชีของเสีย</div>
+        <div class="row-cell cell-result">
+          <button class="result-btn" onclick="setResult(this,'512','pass')">✓ ผ่าน</button>
+          <button class="result-btn" onclick="setResult(this,'512','fail')">✗ ไม่ผ่าน</button>
+        </div>
+        <div class="row-cell"><textarea class="findings-ta" placeholder="Findings..."></textarea></div>
+      </div>
+      <div class="check-row" id="row-513">
+        <div class="row-cell cell-id">5.1.3</div>
+        <div class="row-cell">มีการบำบัด/กำจัดกากขยะอย่างเหมาะสมและถูกกฎหมาย</div>
+        <div class="row-cell cell-evidence">สัญญาผู้รับกำจัด · ใบกำกับการขนส่ง (Manifest) · บัญชีของเสียอันตราย</div>
+        <div class="row-cell cell-redflag">ทิ้งของเสียอันตรายรวมกับขยะทั่วไป · ไม่มี Manifest</div>
+        <div class="row-cell cell-result">
+          <button class="result-btn" onclick="setResult(this,'513','pass')">✓ ผ่าน</button>
+          <button class="result-btn" onclick="setResult(this,'513','fail')">✗ ไม่ผ่าน</button>
+        </div>
+        <div class="row-cell"><textarea class="findings-ta" placeholder="Findings..."></textarea></div>
+      </div>
+      <div class="check-row" id="row-521">
+        <div class="row-cell cell-id">5.2.1</div>
+        <div class="row-cell">มีระบบบำบัดน้ำเสียที่มีการดูแลและตรวจสอบอย่างเหมาะสม</div>
+        <div class="row-cell cell-evidence">บันทึกการเดินระบบ · ผลวิเคราะห์น้ำ (pH/BOD/COD/TSS) · ภาพถ่ายระบบ</div>
+        <div class="row-cell cell-redflag">ระบบบำบัดไม่เดิน · ไม่มีบันทึกผลวิเคราะห์</div>
+        <div class="row-cell cell-result">
+          <button class="result-btn" onclick="setResult(this,'521','pass')">✓ ผ่าน</button>
+          <button class="result-btn" onclick="setResult(this,'521','fail')">✗ ไม่ผ่าน</button>
+        </div>
+        <div class="row-cell"><textarea class="findings-ta" placeholder="Findings..."></textarea></div>
+      </div>
+      <!-- MANDATORY 5.2.2 -->
+      <div class="check-row mandatory" id="row-522">
+        <div class="row-cell cell-id mandatory-id">5.2.2<span class="mandatory-star">★</span></div>
+        <div class="row-cell"><strong>กรณีเข้าข่ายโรงงาน:</strong> ค่าน้ำทิ้งผ่านเกณฑ์มาตรฐานโรงงาน (pH/BOD/COD/TSS/Oil&Grease)</div>
+        <div class="row-cell cell-evidence">ผลวิเคราะห์น้ำทิ้งจากห้องแล็บที่ได้รับการรับรอง · รายงานการเกินเกณฑ์</div>
+        <div class="row-cell cell-redflag">ค่าพารามิเตอร์เกินมาตรฐาน · ไม่มีผลวิเคราะห์จากห้องแล็บที่รับรอง</div>
+        <div class="row-cell cell-result">
+          <button class="result-btn" onclick="setMandatory(this,'522','pass')">✓ ผ่าน</button>
+          <button class="result-btn" onclick="setMandatory(this,'522','fail')">✗ ไม่ผ่าน</button>
+          <button class="result-btn" id="btn-522-na" onclick="setMandatory(this,'522','na')" style="font-size:12px">N.A.</button>
+        </div>
+        <div class="row-cell"><textarea class="findings-ta" placeholder="Findings..."></textarea></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- S6 -->
+  <div class="section-block" id="sec-s6">
+    <div class="section-header s6" onclick="toggleSection('s6')">
+      <span class="section-title">หมวด 6 — การอนุรักษ์ทรัพยากรและพลังงาน</span>
+      <span class="section-badge">15 คะแนน</span>
+      <span class="section-progress" id="prog-s6">0/6</span>
+      <span class="section-chevron">▾</span>
+    </div>
+    <div class="section-body" id="body-s6">
+      <div class="col-header">
+        <div class="col-hdr">ข้อ</div><div class="col-hdr">ตัวชี้วัด</div>
+        <div class="col-hdr">หลักฐาน</div><div class="col-hdr">⚠️ Red Flag</div>
+        <div class="col-hdr text-center">ผล</div><div class="col-hdr">Findings</div>
+      </div>
+      <div class="check-row" id="row-611">
+        <div class="row-cell cell-id">6.1.1</div>
+        <div class="row-cell">ไม่ล้างในระบบน้ำล้นหรือแหล่งน้ำสาธารณะ</div>
+        <div class="row-cell cell-evidence">ภาพถ่ายจุดล้าง · บันทึกการใช้น้ำ</div>
+        <div class="row-cell cell-redflag">พบการล้างในแหล่งน้ำสาธารณะ</div>
+        <div class="row-cell cell-result">
+          <button class="result-btn" onclick="setResult(this,'611','pass')">✓ ผ่าน</button>
+          <button class="result-btn" onclick="setResult(this,'611','fail')">✗ ไม่ผ่าน</button>
+        </div>
+        <div class="row-cell"><textarea class="findings-ta" placeholder="Findings..."></textarea></div>
+      </div>
+      <div class="check-row" id="row-612">
+        <div class="row-cell cell-id">6.1.2</div>
+        <div class="row-cell">มีการใช้ซ้ำและ/หรือหมุนเวียนน้ำล้าง</div>
+        <div class="row-cell cell-evidence">แผนผังระบบน้ำ · บันทึกปริมาณน้ำก่อน-หลัง</div>
+        <div class="row-cell cell-redflag">ไม่มีมาตรการใช้ซ้ำ · ปริมาณน้ำไม่ลดลง</div>
+        <div class="row-cell cell-result">
+          <button class="result-btn" onclick="setResult(this,'612','pass')">✓ ผ่าน</button>
+          <button class="result-btn" onclick="setResult(this,'612','fail')">✗ ไม่ผ่าน</button>
+        </div>
+        <div class="row-cell"><textarea class="findings-ta" placeholder="Findings..."></textarea></div>
+      </div>
+      <div class="check-row" id="row-613">
+        <div class="row-cell cell-id">6.1.3</div>
+        <div class="row-cell">มีการควบคุมการใช้น้ำอย่างเหมาะสม (มิเตอร์ บันทึก เป้าหมาย)</div>
+        <div class="row-cell cell-evidence">บันทึกการใช้น้ำรายเดือน · เป้าหมายการลดน้ำ</div>
+        <div class="row-cell cell-redflag">ไม่มีมิเตอร์ · ไม่มีเป้าหมาย</div>
+        <div class="row-cell cell-result">
+          <button class="result-btn" onclick="setResult(this,'613','pass')">✓ ผ่าน</button>
+          <button class="result-btn" onclick="setResult(this,'613','fail')">✗ ไม่ผ่าน</button>
+        </div>
+        <div class="row-cell"><textarea class="findings-ta" placeholder="Findings..."></textarea></div>
+      </div>
+      <div class="check-row" id="row-621">
+        <div class="row-cell cell-id">6.2.1</div>
+        <div class="row-cell">มีวิธีการใช้ไฟฟ้าอย่างมีประสิทธิภาพ (ปิดเมื่อไม่ใช้ ใช้ LED เป้าหมายลดการใช้)</div>
+        <div class="row-cell cell-evidence">บันทึกการใช้ไฟฟ้ารายเดือน · เป้าหมายลดการใช้พลังงาน · ป้ายรณรงค์</div>
+        <div class="row-cell cell-redflag">ไม่มีเป้าหมาย · ไม่มีมาตรการประหยัดพลังงาน</div>
+        <div class="row-cell cell-result">
+          <button class="result-btn" onclick="setResult(this,'621','pass')">✓ ผ่าน</button>
+          <button class="result-btn" onclick="setResult(this,'621','fail')">✗ ไม่ผ่าน</button>
+        </div>
+        <div class="row-cell"><textarea class="findings-ta" placeholder="Findings..."></textarea></div>
+      </div>
+      <div class="check-row" id="row-622">
+        <div class="row-cell cell-id">6.2.2</div>
+        <div class="row-cell">มีการทำความสะอาดและบำรุงรักษาอุปกรณ์ไฟฟ้าสม่ำเสมอ</div>
+        <div class="row-cell cell-evidence">ตารางการบำรุงรักษา · บันทึกการซ่อมบำรุง</div>
+        <div class="row-cell cell-redflag">ไม่มีแผนบำรุงรักษา · อุปกรณ์สกปรก/ทำงานไม่เต็มประสิทธิภาพ</div>
+        <div class="row-cell cell-result">
+          <button class="result-btn" onclick="setResult(this,'622','pass')">✓ ผ่าน</button>
+          <button class="result-btn" onclick="setResult(this,'622','fail')">✗ ไม่ผ่าน</button>
+        </div>
+        <div class="row-cell"><textarea class="findings-ta" placeholder="Findings..."></textarea></div>
+      </div>
+      <div class="check-row" id="row-631">
+        <div class="row-cell cell-id">6.3.1</div>
+        <div class="row-cell">มีวิธีการใช้เชื้อเพลิงอย่างมีประสิทธิภาพ (เผาครั้งละเต็มเตา ตั้งอุณหภูมิเหมาะสม)</div>
+        <div class="row-cell cell-evidence">บันทึกการใช้เชื้อเพลิง · ต้นทุนเชื้อเพลิง/ชิ้น</div>
+        <div class="row-cell cell-redflag">ไม่มีบันทึก · เผาเตาไม่เต็ม</div>
+        <div class="row-cell cell-result">
+          <button class="result-btn" onclick="setResult(this,'631','pass')">✓ ผ่าน</button>
+          <button class="result-btn" onclick="setResult(this,'631','fail')">✗ ไม่ผ่าน</button>
+        </div>
+        <div class="row-cell"><textarea class="findings-ta" placeholder="Findings..."></textarea></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- S7 -->
+  <div class="section-block" id="sec-s7">
+    <div class="section-header s7" onclick="toggleSection('s7')">
+      <span class="section-title">หมวด 7 — ความรับผิดชอบต่อสังคมและสิ่งแวดล้อม</span>
+      <span class="section-badge">5 คะแนน</span>
+      <span class="section-progress" id="prog-s7">0/2</span>
+      <span class="section-chevron">▾</span>
+    </div>
+    <div class="section-body" id="body-s7">
+      <div class="col-header">
+        <div class="col-hdr">ข้อ</div><div class="col-hdr">ตัวชี้วัด</div>
+        <div class="col-hdr">หลักฐาน</div><div class="col-hdr">⚠️ Red Flag</div>
+        <div class="col-hdr text-center">ผล</div><div class="col-hdr">Findings</div>
+      </div>
+      <div class="check-row" id="row-711">
+        <div class="row-cell cell-id">7.1.1</div>
+        <div class="row-cell">มีส่วนร่วมในการอนุรักษ์สิ่งแวดล้อมในชุมชน (กิจกรรมที่ทำจริง มีหลักฐานเชิงประจักษ์)</div>
+        <div class="row-cell cell-evidence">ภาพถ่ายกิจกรรม · ใบเสร็จ · ประกาศ · บันทึกกิจกรรม<br><em>⚠️ ความทรงจำ/สัมภาษณ์อย่างเดียว ไม่นับ</em></div>
+        <div class="row-cell cell-redflag">บอกว่ามีกิจกรรมแต่ไม่มีหลักฐาน · กิจกรรมเป็นเพียงแผน</div>
+        <div class="row-cell cell-result">
+          <button class="result-btn" onclick="setResult(this,'711','pass')">✓ ผ่าน</button>
+          <button class="result-btn" onclick="setResult(this,'711','fail')">✗ ไม่ผ่าน</button>
+        </div>
+        <div class="row-cell"><textarea class="findings-ta" placeholder="Findings..."></textarea></div>
+      </div>
+      <div class="check-row" id="row-721">
+        <div class="row-cell cell-id">7.2.1</div>
+        <div class="row-cell">มีส่วนร่วมในการส่งเสริมเศรษฐกิจและสังคมในชุมชน (จ้างงานท้องถิ่น ใช้ผู้จำหน่ายท้องถิ่น ฯลฯ)</div>
+        <div class="row-cell cell-evidence">หลักฐานการจ้างงานท้องถิ่น · รายชื่อผู้จำหน่ายท้องถิ่น</div>
+        <div class="row-cell cell-redflag">ไม่มีหลักฐานเชิงประจักษ์</div>
+        <div class="row-cell cell-result">
+          <button class="result-btn" onclick="setResult(this,'721','pass')">✓ ผ่าน</button>
+          <button class="result-btn" onclick="setResult(this,'721','fail')">✗ ไม่ผ่าน</button>
+        </div>
+        <div class="row-cell"><textarea class="findings-ta" placeholder="Findings..."></textarea></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ CE SECTION ══ -->
+  <div class="section-block" id="sec-sce">
+    <div class="section-header sce" onclick="toggleSection('sce')">
+      <span class="section-title">เกณฑ์ส่วนเพิ่ม — Circular Economy (CE) <span class="tag tag-ce">ไม่นับรวม GP Core</span></span>
+      <span class="section-badge">20 คะแนน</span>
+      <span class="section-progress" id="prog-sce">0/20</span>
+      <span class="section-chevron">▾</span>
+    </div>
+    <div class="section-body" id="body-sce">
+      <div class="col-header ce-hdr">
+        <div class="col-hdr">ข้อ CE</div>
+        <div class="col-hdr">ตัวชี้วัด CE (0/1/2)</div>
+        <div class="col-hdr">หลักฐานที่ต้องดู</div>
+        <div class="col-hdr">⚠️ จุดที่สับสนบ่อย</div>
+        <div class="col-hdr text-center">คะแนน</div>
+        <div class="col-hdr">Findings</div>
+      </div>
+      <!-- CE rows -->
+      <div id="ce-rows"></div>
+    </div>
+  </div>
+
+  <!-- SUMMARY -->
+  <div class="summary-card">
+    <h2>สรุปคะแนนและระดับการรับรอง</h2>
+    <div id="result-banner" class="result-banner pending">⏳ รอการประเมิน — กรุณากรอกข้อมูลให้ครบทุกหมวด</div>
+    <table class="summary-table">
+      <thead>
+        <tr>
+          <th>หมวด</th><th>คะแนนเต็ม</th><th>ตัวชี้วัด ผ่าน</th>
+          <th>เกณฑ์ผ่าน (≥60%)</th><th>สถานะ</th>
+        </tr>
+      </thead>
+      <tbody id="summary-tbody"></tbody>
+    </table>
+
+    <div class="mandatory-box mt-8">
+      <h3>⛔ เงื่อนไขการตก (ตกทันที ไม่ว่าคะแนนรวมจะเป็นเท่าไร)</h3>
+      <ol>
+        <li>ไม่ผ่าน 3.2.1: พบสารห้ามใช้ (Azo dyes, Cd, Pb, Hg เกินมาตรฐาน) หรือไม่มีผลทดสอบ/ใบรับรองสาร</li>
+        <li>ไม่ผ่าน 5.2.2: กรณีเข้าข่ายโรงงาน ค่าน้ำทิ้งเกินมาตรฐาน หรือไม่มีผลวิเคราะห์จากห้องแล็บที่ได้รับการรับรอง</li>
+        <li>หมวดใดหมวดหนึ่งได้คะแนน < 60%</li>
+        <li>ใบรับรองมีอายุ 3 ปี นับจากวันออกใบรับรอง</li>
+      </ol>
+    </div>
+
+    <div class="cert-grid mt-8">
+      <div class="cert-card cert-copper">
+        <div class="cert-icon">🥉</div>
+        <div class="cert-name">GP Copper (ทองแดง)</div>
+        <div class="cert-score">60–69 คะแนน</div>
+        <div class="cert-benefit">ได้รับใบรับรอง · ปรับปรุงต่อเนื่องได้</div>
+      </div>
+      <div class="cert-card cert-silver">
+        <div class="cert-icon">🥈</div>
+        <div class="cert-name">GP Silver (เงิน)</div>
+        <div class="cert-score">70–79 คะแนน</div>
+        <div class="cert-benefit">ใช้ตรา GP ในการตลาด · เข้าถึงตลาด Green</div>
+      </div>
+      <div class="cert-card cert-gold">
+        <div class="cert-icon">🥇</div>
+        <div class="cert-name">GP Gold (ทอง)</div>
+        <div class="cert-score">80–89 คะแนน</div>
+        <div class="cert-benefit">ใช้ตรา GP ระดับสูง · ส่งออกสินค้าสีเขียว</div>
+      </div>
+      <div class="cert-card cert-plus">
+        <div class="cert-icon">⭐</div>
+        <div class="cert-name">GP Plus (พลัส)</div>
+        <div class="cert-score">≥ 90 คะแนน</div>
+        <div class="cert-benefit">Showcase โครงการ · ได้รับการประชาสัมพันธ์</div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /page -->
+
+<script>
+// ── DATA ──
+const sections = {
+  s1: { label:'หมวด 1', max:5,  rows:['111','121'] },
+  s2: { label:'หมวด 2', max:15, rows:['211','221','222','231'] },
+  s3: { label:'หมวด 3 ★', max:30, rows:['311','312','321','322','331','332','333','341','342'] },
+  s4: { label:'หมวด 4', max:15, rows:['411','421','431'] },
+  s5: { label:'หมวด 5 ★', max:15, rows:['511','512','513','521','522'] },
+  s6: { label:'หมวด 6', max:15, rows:['611','612','613','621','622','631'] },
+  s7: { label:'หมวด 7', max:5,  rows:['711','721'] },
+};
+const mandatory = { '321': null, '522': null };
+const results   = {};
+const ceScores  = {};
+
+const ceData = [
+  ['CE-1','มีนโยบาย/แนวคิดการใช้วัสดุหมุนเวียน ครอบคลุมทั้งช่วงใช้งานและหลังใช้งาน\n0=ไม่มี · 1=มีเพียงช่วงเดียว · 2=ครบทั้งสองช่วง','เอกสารนโยบาย CE · ประกาศ','CE-1 ≠ CE-3 (นโยบาย ≠ Flow chart)'],
+  ['CE-2','มีแผนงาน + KPI + วิธีติดตาม + ประเมินผลเทียบกับ KPI ที่ตั้งไว้\n0=ไม่มี · 1=มีแผน+KPI แต่ไม่ประเมินผล · 2=ครบ','แผนงาน + KPI + บันทึกผลการประเมิน','"ประเมินผล" ≠ "มีแผน" ต้องเปรียบผลจริงกับ KPI'],
+  ['CE-3','มี Flow chart แสดงห่วงโซ่คุณค่าทั้งช่วงใช้งานและหลังใช้งาน พร้อมผู้มีส่วนเสียจริง\n0=ไม่มี · 1=มีช่วงเดียว · 2=ครบทั้งสองช่วง','แผนภาพ Flow chart ห่วงโซ่','CE-3 ≠ CE-1 · Flow chart คือภาพ ไม่ใช่นโยบาย'],
+  ['CE-4','ระบุผู้มีส่วนได้เสียด้านสิ่งแวดล้อมได้ และมีวิธีสื่อสาร/ดำเนินการ\n0=ไม่มี · 1=ระบุได้อย่างเดียว · 2=มีวิธีดำเนินการด้วย','รายชื่อผู้มีส่วนได้เสียด้านสิ่งแวดล้อม · แผนการสื่อสาร','CE-4 ≠ หมวด 7 (CE = วิเคราะห์ผู้มีส่วนได้เสีย / หมวด 7 = กิจกรรมจริง)'],
+  ['CE-5','ระบุผู้มีส่วนได้เสียด้านชุมชนได้ และมีวิธีสื่อสาร/ดำเนินการ\n0=ไม่มี · 1=ระบุได้อย่างเดียว · 2=มีวิธีดำเนินการด้วย','รายชื่อผู้มีส่วนได้เสียชุมชน · แผนการสื่อสาร','CE-5 ≠ หมวด 7 · แยกสิ่งแวดล้อม (CE-4) กับชุมชน (CE-5) ให้ชัด'],
+  ['CE-6','ใช้วัตถุดิบ/บรรจุภัณฑ์หมุนเวียน มีหลักฐานแหล่งที่มา (secondary resources / recycled material)\n0=ไม่มี · 1=มีแต่บอกเล่า · 2=มีหลักฐานแหล่งที่มาจริง','ใบเสร็จ/ใบส่งของจากแหล่ง secondary · ฉลาก recycled content','ต้องมีหลักฐานแหล่งที่มา ไม่ใช่แค่บอกเล่า'],
+  ['CE-7','มีบัญชีรายการวัสดุไม่ใช้แล้ว ระบุลักษณะ ปริมาณ และผู้นำไปใช้ประโยชน์\n0=ไม่มี · 1=มีบัญชีแต่ไม่สมบูรณ์ · 2=ครบ','บัญชีวัสดุไม่ใช้แล้ว (ชนิด ปริมาณ ผู้รับ)','ต้องระบุผู้นำไปใช้ประโยชน์จริง'],
+  ['CE-8','ส่งข้อมูลให้ลูกค้า: วิธีใช้ที่ถูกต้อง การยืดอายุ และการจัดการเมื่อหมดอายุ\n0=ไม่มี · 1=มีบางอย่าง · 2=ครบทั้งสาม','ฉลาก/คู่มือ/QR code ที่ส่งถึงลูกค้าจริง · โซเชียลมีเดีย','CE-8 ≠ CE-9 · CE-8 = ให้ข้อมูล / CE-9 = จัดช่องทาง'],
+  ['CE-9','จัดช่องทางจริงสำหรับลูกค้าในการยืดอายุและจัดการหมดอายุ\n0=ไม่มี · 1=มีช่องยืดอายุหรือหมดอายุอย่างใดอย่างหนึ่ง · 2=ครบสองช่องทาง','จุดรับคืน/ซ่อม · จุดดรอปออฟ · สัญญา Refurbish','CE-8 ≠ CE-9 · ต้องมีทั้งช่องยืดอายุ + ช่องหมดอายุ'],
+  ['CE-10','มีนวัตกรรมกระบวนการ/ผลิตภัณฑ์ในช่วงใดของห่วงโซก็ได้ และวัดผลเป็นตัวเลข\n0=ไม่มีการประเมินผล · 1=วัดด้านใดด้านหนึ่ง · 2=วัดผลทั้งเศรษฐกิจ+สิ่งแวดล้อมต่อหน่วย','รายงานผล: ต้นทุน/ชิ้น · CO₂/ชิ้น ลดลง X%','ต้องเป็นตัวเลข ไม่ใช่แค่ "ดีขึ้น"'],
+];
+
+// ── BUILD CE ROWS ──
+function buildCE() {
+  const cont = document.getElementById('ce-rows');
+  ceData.forEach(([id, ind, ev, conf]) => {
+    const key = id.replace('-','').toLowerCase();
+    ceScores[key] = null;
+    const row = document.createElement('div');
+    row.className = 'check-row ce-row';
+    row.id = 'row-' + key;
+    row.innerHTML = `
+      <div class="row-cell cell-id" style="color:#0D9488;font-weight:700">${id}</div>
+      <div class="row-cell" style="white-space:pre-line;font-size:13px">${ind}</div>
+      <div class="row-cell cell-evidence" style="font-size:13px">${ev}</div>
+      <div class="row-cell cell-redflag" style="font-size:13px">${conf}</div>
+      <div class="row-cell cell-result">
+        <div class="ce-score-group">
+          <button class="score-btn" onclick="setCE(this,'${key}',0)">0</button>
+          <button class="score-btn" onclick="setCE(this,'${key}',1)">1</button>
+          <button class="score-btn" onclick="setCE(this,'${key}',2)">2</button>
+        </div>
+      </div>
+      <div class="row-cell"><textarea class="findings-ta" placeholder="Findings..."></textarea></div>
+    `;
+    cont.appendChild(row);
+  });
+}
+buildCE();
+
+// ── TOGGLE SECTION ──
+function toggleSection(id) {
+  const hdr  = document.querySelector(`#sec-${id} .section-header`);
+  const body = document.getElementById(`body-${id}`);
+  const isCollapsed = hdr.classList.toggle('collapsed');
+  body.style.display = isCollapsed ? 'none' : 'block';
+}
+function expandAll()  { Object.keys(sections).concat(['sce']).forEach(id => {
+  const hdr  = document.querySelector(`#sec-${id} .section-header`);
+  const body = document.getElementById(`body-${id}`);
+  hdr.classList.remove('collapsed'); body.style.display = 'block';
+}); }
+function collapseAll() { Object.keys(sections).concat(['sce']).forEach(id => {
+  const hdr  = document.querySelector(`#sec-${id} .section-header`);
+  const body = document.getElementById(`body-${id}`);
+  hdr.classList.add('collapsed'); body.style.display = 'none';
+}); }
+
+// ── SET RESULT ──
+function setResult(btn, id, val) {
+  const row = document.getElementById('row-'+id);
+  const btns = row.querySelectorAll('.result-btn');
+  btns.forEach(b => { b.classList.remove('selected-pass','selected-fail'); });
+  btn.classList.add(val === 'pass' ? 'selected-pass' : 'selected-fail');
+  results[id] = val;
+  updateAll();
+}
+function setMandatory(btn, id, val) {
+  const row = document.getElementById('row-'+id);
+  const btns = row.querySelectorAll('.result-btn');
+  btns.forEach(b => { b.classList.remove('selected-pass','selected-fail'); });
+  if(val !== 'na') btn.classList.add(val === 'pass' ? 'selected-pass' : 'selected-fail');
+  mandatory[id] = val;
+  results[id] = val;
+  updateAll();
+}
+function setCE(btn, key, score) {
+  const row = document.getElementById('row-'+key);
+  const btns = row.querySelectorAll('.score-btn');
+  btns.forEach(b => b.classList.remove('sel0','sel1','sel2'));
+  btn.classList.add('sel'+score);
+  ceScores[key] = score;
+  updateAll();
+}
+
+// ── UPDATE ALL ──
+function updateAll() {
+  let gpTotal = 0;
+  let allAnswered = true;
+  const sectData = {};
+
+  Object.entries(sections).forEach(([sid, sec]) => {
+    let passCount = 0, answered = 0;
+    sec.rows.forEach(rid => {
+      if(results[rid] !== undefined && results[rid] !== null) {
+        answered++;
+        if(results[rid] === 'pass') passCount++;
+      } else { allAnswered = false; }
+    });
+    const score = Math.round((passCount / sec.rows.length) * sec.max);
+    gpTotal += score;
+    const pct = sec.rows.length > 0 ? Math.round(passCount / sec.rows.length * 100) : 0;
+    sectData[sid] = { score, max: sec.max, pass: passCount, total: sec.rows.length, pct, answered };
+    const prog = document.getElementById('prog-'+sid);
+    if(prog) prog.textContent = `${passCount}/${sec.rows.length}`;
+  });
+
+  // CE
+  let ceTotal = 0;
+  Object.values(ceScores).forEach(v => { if(v !== null) ceTotal += v; });
+  const ceProg = document.getElementById('prog-sce');
+  if(ceProg) ceProg.textContent = `${ceTotal}/20`;
+
+  // Mandatory status
+  const m321 = mandatory['321'];
+  const m522 = mandatory['522'];
+  const tick321 = document.getElementById('tick-321');
+  const tick522 = document.getElementById('tick-522');
+  if(m321 === 'pass')  { tick321.textContent='ผ่าน ✓'; tick321.className='ticker-badge pass'; }
+  else if(m321==='fail'){ tick321.textContent='ไม่ผ่าน ✗'; tick321.className='ticker-badge mandatory-fail'; }
+  else { tick321.textContent='—'; tick321.className='ticker-badge'; }
+  if(m522 === 'pass')  { tick522.textContent='ผ่าน ✓'; tick522.className='ticker-badge pass'; }
+  else if(m522==='fail'){ tick522.textContent='ไม่ผ่าน ✗'; tick522.className='ticker-badge mandatory-fail'; }
+  else if(m522==='na') { tick522.textContent='N.A.'; tick522.className='ticker-badge'; }
+  else { tick522.textContent='—'; tick522.className='ticker-badge'; }
+
+  // Tickers
+  document.getElementById('tick-total').textContent = `${gpTotal}/100`;
+  document.getElementById('tick-s3').textContent = `${sectData.s3.score}/30`;
+  document.getElementById('tick-s5').textContent = `${sectData.s5.score}/15`;
+  document.getElementById('tick-ce').textContent = `${ceTotal}/20`;
+
+  // Overall pass/fail
+  let mandatoryFail = (m321==='fail') || (m522==='fail');
+  let sectionFail   = Object.values(sectData).some(s => s.pct < 60 && s.answered === s.total);
+  let overallPass   = gpTotal >= 60 && !mandatoryFail && !sectionFail;
+  let tickStatus    = document.getElementById('tick-status');
+  let banner        = document.getElementById('result-banner');
+
+  if(!allAnswered || m321 === null) {
+    tickStatus.textContent='รอประเมิน'; tickStatus.className='ticker-badge';
+    banner.className='result-banner pending';
+    banner.innerHTML='⏳ รอการประเมิน — กรุณากรอกข้อมูลให้ครบทุกหมวด';
+  } else if(mandatoryFail) {
+    tickStatus.textContent='ตก ✗'; tickStatus.className='ticker-badge mandatory-fail';
+    banner.className='result-banner fail';
+    banner.innerHTML='⛔ ไม่ผ่านการรับรอง — ไม่ผ่านเกณฑ์บังคับ (Mandatory Fail)';
+  } else if(sectionFail || gpTotal < 60) {
+    tickStatus.textContent='ตก ✗'; tickStatus.className='ticker-badge mandatory-fail';
+    banner.className='result-banner fail';
+    banner.innerHTML=`⛔ ไม่ผ่านการรับรอง — คะแนนรวม ${gpTotal}/100 หรือมีหมวดที่ต่ำกว่า 60%`;
+  } else {
+    let level = gpTotal >= 90 ? 'GP Plus ⭐' : gpTotal >= 80 ? 'GP Gold 🥇' : gpTotal >= 70 ? 'GP Silver 🥈' : 'GP Copper 🥉';
+    tickStatus.textContent='ผ่าน ✓'; tickStatus.className='ticker-badge pass';
+    banner.className='result-banner pass';
+    banner.innerHTML=`✅ ผ่านการรับรอง — ${level} | คะแนน ${gpTotal}/100 | CE: ${ceTotal}/20`;
+  }
+
+  // Summary table
+  const tbody = document.getElementById('summary-tbody');
+  tbody.innerHTML = '';
+  Object.entries(sections).forEach(([sid, sec]) => {
+    const d = sectData[sid];
+    const isPassing = d.pct >= 60;
+    const badge = d.answered < d.total ? `<span class="score-display sd-neutral">${d.answered}/${d.total}</span>` :
+      isPassing ? `<span class="score-display sd-pass">✓ ผ่าน</span>` : `<span class="score-display sd-fail">✗ ตก</span>`;
+    const thresholds = { s1:'≥3', s2:'≥9', s3:'≥18', s4:'≥9', s5:'≥9', s6:'≥9', s7:'≥3' };
+    tbody.innerHTML += `<tr>
+      <td>${sec.label}</td>
+      <td class="text-center text-mono">${sec.max}</td>
+      <td class="text-center">${d.pass}/${d.total} <small>(${d.pct}%)</small></td>
+      <td class="text-center">${thresholds[sid]}</td>
+      <td class="text-center">${badge}</td>
+    </tr>`;
+  });
+  tbody.innerHTML += `<tr class="total-row">
+    <td>รวม GP Core</td><td class="text-center text-mono">100</td>
+    <td class="text-center text-mono">${gpTotal}</td>
+    <td class="text-center">≥60 + ผ่านบังคับ</td>
+    <td class="text-center">${overallPass ? '<span class="score-display sd-pass">✓ ผ่าน</span>' : '<span class="score-display sd-fail">✗ ตรวจสอบ</span>'}</td>
+  </tr>
+  <tr class="ce-row-s">
+    <td>CE Supplement</td><td class="text-center text-mono">20</td>
+    <td class="text-center text-mono">${ceTotal}</td>
+    <td class="text-center">—</td>
+    <td class="text-center">ระดับ CE</td>
+  </tr>`;
+}
+
+// ── CLEAR ──
+function clearAll() {
+  if(!confirm('ล้างข้อมูลทั้งหมดหรือไม่?')) return;
+  Object.keys(results).forEach(k => delete results[k]);
+  Object.keys(mandatory).forEach(k => { mandatory[k] = null; });
+  Object.keys(ceScores).forEach(k => { ceScores[k] = null; });
+  document.querySelectorAll('.result-btn').forEach(b => b.classList.remove('selected-pass','selected-fail'));
+  document.querySelectorAll('.score-btn').forEach(b => b.classList.remove('sel0','sel1','sel2'));
+  document.querySelectorAll('.findings-ta').forEach(t => t.value = '');
+  document.querySelectorAll('input[type=text], input[type=date]').forEach(i => i.value = '');
+  document.getElementById('meta-factory').value = '';
+  updateAll();
+}
+
+updateAll();
+</script>
+
+<!-- FOOTER -->
+<footer style="
+  background: var(--green-900);
+  color: rgba(255,255,255,0.75);
+  text-align: center;
+  padding: 20px 24px;
+  font-family: var(--font-th);
+  font-size: 13px;
+  line-height: 1.8;
+  margin-top: 0;
+">
+  <div style="max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:center;gap:16px;flex-wrap:wrap;">
+    <span style="font-size:22px;">🌿</span>
+    <div>
+      <div style="color:white;font-size:14px;font-weight:600;margin-bottom:2px;">
+        แบบประเมิน Green Production (GP) 2569
+      </div>
+      <div>
+        Created by&nbsp;
+        <span style="color:#86EFAC;font-weight:700;">Sorawit Suwannarong</span>
+        &nbsp;|&nbsp; ISO &amp; ESG Transformation Consultant
+        &nbsp;|&nbsp; GP Auditor — DCCE 2569
+      </div>
+      <div style="margin-top:4px;font-size:12px;color:rgba(255,255,255,0.5);">
+        กรมการเปลี่ยนแปลงสภาพภูมิอากาศและสิ่งแวดล้อม (DCCE) &nbsp;·&nbsp;
+        เกณฑ์ Green Production 2569 &nbsp;·&nbsp;
+        <span style="font-family:'IBM Plex Mono',monospace;">v1.0</span>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
